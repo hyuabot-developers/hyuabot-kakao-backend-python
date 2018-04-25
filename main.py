@@ -30,10 +30,10 @@ def message():
         campus = 1
     else:
         campus = cur.fetchall()[0][1]
-    string, button_list = handler(content, campus)
-    data = {"message": {"text": string}, "keyboard": {"type": "buttons", "buttons": button_list}}
     cur.close()
     conn.close()
+    string, button_list = handler(content, campus)
+    data = {"message": {"text": string}, "keyboard": {"type": "buttons", "buttons": button_list}}
     return jsonify(data)
 
 
