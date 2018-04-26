@@ -29,6 +29,8 @@ def food_main(cafeteria):
         for x in menus:
             if x['time'] == 2:
                 menu_list += [x]
+    if menu_list == []:
+        string += '식단이 제공되지 않습니다'
     for x in menu_list:
         if x['name'] != '':
             string += x['name'] + ' '
