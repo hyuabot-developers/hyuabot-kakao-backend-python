@@ -1,4 +1,5 @@
 from food.food_main import make_string_food
+from transport.shuttle_main import shuttle_main
 import sqlite3
 
 
@@ -24,6 +25,22 @@ def handler(content, campus = 1):
         else:
             string = '한양대역(2호선) 도착정보입니다.'
             button_list = ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
+    elif content == "셔틀버스":
+        string = '시간표를 알고 싶은 정류장을 선택해주세요.'
+        button_list = ['셔틀콕', '한대앞역', '예술인A', '기숙사', '처음으로']
+    elif content == "셔틀콕":
+        string = '셔틀콕 >> 한대앞\n'
+        string += shuttle_main('shuttleA', 'toSubway') + '\n\n'
+        string += '셔틀콕 >> 예술인A\n'
+        string += shuttle_main('shuttleA', 'toTerminal') + '\n\n'
+        string += '셔틀콕 >> 한대앞 >> 예술인A\n'
+        string += shuttle_main('shuttleA', 'cycle')
+    elif content == "한대앞역":
+        string = shuttle_main('subway')
+    elif content == "예술인A":
+        string = shuttle_main('terminal')
+    elif content == "기숙사":
+        string = shuttle_main('dorm')
     elif content == "처음으로":
         button_list =   ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
         string = "처음으로 돌아갑니다."
