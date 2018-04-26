@@ -6,7 +6,9 @@ from handler import handler
 app = Flask(__name__)
 button_list = ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
 find_user = 'select * from user where user_id=?'
-insert_user = 'insert into user (user_key, campus) values (?,?)'
+insert_user = 'insert into user (user_id, campus) values (?,?)'
+change_campus =  'update user set campus = ? where user_id = ?'
+delete = 'delete from user where user_id = ?'
 
 
 @app.route('/keyboard')
@@ -18,24 +20,42 @@ def keyboard():
 
 @app.route('/message', methods=['POST'])
 def message():
-    global button_list, find_user
+    global button_list, find_user, change_campus
     received_data = request.get_json()
     content = received_data['content']
     user = received_data['user_key']
     conn = sqlite3.connect('user.db', timeout=30)
     cur = conn.cursor()
-    cur.execute(find_user, (user))
-    if cur.fetchall() == []:
+    cur.execute(find_user, (user,))
+    result = cur.fetchall()
+    if result == []:
         cur.execute(insert_user, (user, 1))
         campus = 1
     else:
-        campus = cur.fetchall()[0][1]
+        campus = result[0][1]
+    if content == "캠퍼스 변경":
+        if campus == 1:
+            string = '서울캠퍼스로 변경되었습니다.'
+            cur.execute(change_campus, (2, user))
+        else:
+            string = 'ERICA 캠퍼스로 변경되었습니다.'
+            cur.execute(change_campus, (1, user))
+    conn.commit()
     cur.close()
     conn.close()
-    string, button_list = handler(content, campus)
+    if content != "캠퍼스 변경":
+        string, button_list = handler(content, campus)
     data = {"message": {"text": string}, "keyboard": {"type": "buttons", "buttons": button_list}}
     return jsonify(data)
 
+@app.route('/chat_room/<user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    conn = sqlite3.connect('user.db', timeout=30)
+    cur = conn.cursor()
+    cur.execute(delete, (str(user_id),))
+    conn.commit()
+    cur.close()
+    conn.close()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
