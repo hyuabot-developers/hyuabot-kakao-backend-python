@@ -4,6 +4,7 @@ from transport.subway import subway_seoul, subway_erica
 from transport.bus import bus_request
 from weather.weather import weather_request
 from phone.phone_search import phone_erica, phone_seoul
+from recommend import recommend_bob, recommend_cafe
 import sqlite3
 
 
@@ -71,8 +72,13 @@ def handler(content, campus = 1):
     elif content == '전화번호 검색' or content == "재검색":
         button_list = []
         string = "검색어를 입력해주세요."
+    elif content == '음식/카페 추천':
+        string = '음식점과 카페 중 원하는 항목을 골라주세요.'
+        button_list = ['음식점', '카페', '처음으로']
+    elif content == "음식점" or content == "다시 추천받기(음식점)":
+        string = recommend_bob()
     elif content == "처음으로":
-        button_list =   ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
+        button_list =  ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
         if campus == 1:
             string = 'ERICA 캠퍼스입니다.'
         elif campus == 2:
