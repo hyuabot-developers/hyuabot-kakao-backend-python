@@ -2,6 +2,8 @@ from food.food_main import make_string_food
 from transport.shuttle_main import shuttle_main
 from transport.subway import subway_seoul, subway_erica
 from transport.bus import bus_request
+from weather.weather import weather_request
+from phone.phone_search import phone_erica, phone_seoul
 import sqlite3
 
 
@@ -56,9 +58,36 @@ def handler(content, campus = 1):
     elif content in destination_list[:-1]:
         button_list = ['버스', '지하철', '셔틀버스', '처음으로']
         string = bus_request(content)
+    elif content == "날씨":
+        string = weather_request(campus)
+    elif content == "기타 기능":
+        string = "원하시는 기능을 눌러주세요."
+        if campus == 1:
+            button_list = ['전화번호 검색', '음식/카페 추천', '건의하기', '처음으로']
+        elif campus == 2:
+            button_list = ['전화번호 검색', '건의하기', '처음으로']
+    elif content == "건의하기":
+        string = 'https://open.kakao.com/o/sCJmxDL'
+    elif content == '전화번호 검색' or content == "재검색":
+        button_list = []
+        string = "검색어를 입력해주세요."
     elif content == "처음으로":
         button_list =   ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
-        string = "처음으로 돌아갑니다."
+        if campus == 1:
+            string = 'ERICA 캠퍼스입니다.'
+        elif campus == 2:
+            string = '서울캠퍼스입니다.'
+        else:
+            string = '에러입니다.'
     else:
-        string = content
+        if campus == 1:
+            string = phone_erica(content)
+            button_list = ['재검색', '처음으로']
+        elif campus == 2:
+            string = phone_seoul(content)
+            button_list = ['재검색', '처음으로']
+        else:
+            string = content
+    if string[-1] == '\n':
+        string = string[:-1]
     return string, button_list
