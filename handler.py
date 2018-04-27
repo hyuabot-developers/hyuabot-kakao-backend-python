@@ -77,6 +77,10 @@ def handler(content, campus = 1):
         button_list = ['음식점', '카페', '처음으로']
     elif content == "음식점" or content == "다시 추천받기(음식점)":
         string = recommend_bob()
+        button_list = ['다시 추천받기(음식점)', '처음으로']
+    elif content == "카페" or content == "다시 추천받기(카페)":
+        string = recommend_bob()
+        button_list = ['다시 추천받기(카페)', '처음으로']
     elif content == "처음으로":
         button_list =  ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
         if campus == 1:
