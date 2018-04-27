@@ -34,7 +34,10 @@ def food_main(cafeteria):
     for x in menu_list:
         if x['name'] != '':
             string += x['name'] + ' '
-        string += str(x['price']) + '원\n'
+        try:
+            string += str(x['price']) + '원\n'
+        except:
+            pass
         for y in x['description'].split(' '):
             string += y + '\n'
         string += '\n'
