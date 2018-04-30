@@ -46,12 +46,12 @@ def food_main(cafeteria):
     return string
 
 def make_string_food(content, campus=1):
-    if content == "학생식당":
+    if "학생식당" in content:
         if campus == 1:
             string = food_main('student_erica')
         else:
             string = food_main('student_seoul')
-    elif content == "교직원식당":
+    elif "교직원식당" in content:
         if campus == 1:
             string = food_main('teacher_erica')
         else:

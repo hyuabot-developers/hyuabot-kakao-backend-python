@@ -9,8 +9,8 @@ import sqlite3
 
 
 button_list = ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
-seoul_cafeteria_list = ["학생식당", "교직원식당", "사랑방", "신교직원식당", "제1생활관식당",  "제2생활관식당", "행원파크", "처음으로"]
-erica_cafeteria_list =  ["학생식당", "교직원식당", "푸드코트", "창업보육센터", "기숙사식당", "처음으로"]
+seoul_cafeteria_list = ["학생식당(서울)", "교직원식당(서울)", "사랑방", "신교직원식당", "제1생활관식당",  "제2생활관식당", "행원파크", "처음으로"]
+erica_cafeteria_list =  ["학생식당(ERICA)", "교직원식당(ERICA)", "푸드코트", "창업보육센터", "기숙사식당", "처음으로"]
 destination_list = ['시내', '강남', '수원/성남', '처음으로']
 
 def handler(content, campus = 1):
@@ -79,7 +79,7 @@ def handler(content, campus = 1):
         string = recommend_bob()
         button_list = ['다시 추천받기(음식점)', '처음으로']
     elif content == "카페" or content == "다시 추천받기(카페)":
-        string = recommend_bob()
+        string = recommend_cafe()
         button_list = ['다시 추천받기(카페)', '처음으로']
     elif content == "처음으로":
         button_list =  ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
