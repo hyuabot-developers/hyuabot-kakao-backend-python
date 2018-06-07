@@ -13,14 +13,12 @@ delete = 'delete from user where user_id = ?'
 
 @app.route('/keyboard')
 def keyboard():
-    global button_list
     data = {"type": "buttons", "buttons": button_list}
     return jsonify(data)
 
 
 @app.route('/message', methods=['POST'])
 def message():
-    global button_list, find_user, change_campus
     received_data = request.get_json()
     content = received_data['content']
     user = received_data['user_key']
