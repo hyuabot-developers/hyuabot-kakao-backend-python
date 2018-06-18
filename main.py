@@ -45,10 +45,10 @@ def message():
     conn.close()
     if content != "캠퍼스 변경":
         string, button_list = handler(content, campus)
-        if button_list != []:
-            data = {"message": {"text": string}, "keyboard": {"type": "buttons", "buttons": button_list}}
-        else:
-            data = {"message": {"text": string}, "keyboard": {"type": "text"}}
+    if button_list != []:
+        data = {"message": {"text": string}, "keyboard": {"type": "buttons", "buttons": button_list}}
+    else:
+        data = {"message": {"text": string}, "keyboard": {"type": "text"}}
     return jsonify(data)
 
 @app.route('/chat_room/<user_id>', methods=['DELETE'])
