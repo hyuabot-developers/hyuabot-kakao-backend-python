@@ -34,8 +34,10 @@ def message():
     if content == "캠퍼스 변경":
         if campus == 1:
             string = '서울캠퍼스로 변경되었습니다.'
+            button_list = ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
             cur.execute(change_campus, (2, user))
         elif campus == 2:
+            button_list = ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
             string = 'ERICA 캠퍼스로 변경되었습니다.'
             cur.execute(change_campus, (1, user))
     conn.commit()
@@ -43,10 +45,10 @@ def message():
     conn.close()
     if content != "캠퍼스 변경":
         string, button_list = handler(content, campus)
-    if button_list != []:
-        data = {"message": {"text": string}, "keyboard": {"type": "buttons", "buttons": button_list}}
-    else:
-        data = {"message": {"text": string}, "keyboard": {"type": "text"}}
+        if button_list != []:
+            data = {"message": {"text": string}, "keyboard": {"type": "buttons", "buttons": button_list}}
+        else:
+            data = {"message": {"text": string}, "keyboard": {"type": "text"}}
     return jsonify(data)
 
 @app.route('/chat_room/<user_id>', methods=['DELETE'])
