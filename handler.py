@@ -89,13 +89,12 @@ def handler(content, campus = 1):
             string = '서울캠퍼스입니다.'
         else:
             string = '에러입니다.'
-    elif content == '캠퍼스 변경':
-        if campus == 1:
-            string = phone_erica(content)
-            button_list = ['재검색', '처음으로']
-        elif campus == 2:
-            string = phone_seoul(content)
-            button_list = ['재검색', '처음으로']
+    if campus == 1:
+        string = phone_erica(content)
+        button_list = ['재검색', '처음으로']
+    elif campus == 2:
+        string = phone_seoul(content)
+        button_list = ['재검색', '처음으로']
     else:
         string = content
         button_list = []
