@@ -72,15 +72,15 @@ def handler(content, campus = 1):
     elif content == '전화번호 검색' or content == "재검색":
         button_list = []
         string = "검색어를 입력해주세요."
-    elif content == '음식/카페 추천':
+    elif content == '음식/카페 추천' or content == "뒤로":
         string = '음식점과 카페 중 원하는 항목을 골라주세요.'
         button_list = ['음식점', '카페', '처음으로']
-    elif content == "음식점" or content == "다시 추천받기(음식점)":
+    elif content == "음식점":
         string = recommend_bob()
-        button_list = ['다시 추천받기(음식점)', '처음으로']
+        button_list = ['음식점 추천(+1)', '음식점 비추천(-1)', '뒤로']
     elif content == "카페" or content == "다시 추천받기(카페)":
         string = recommend_cafe()
-        button_list = ['다시 추천받기(카페)', '처음으로']
+        button_list = ['카페 추천(+1)', '카페 비추천(-1)', '뒤로']
     elif content == "처음으로":
         button_list =  ["학식", "교통", "날씨", "기타 기능", "캠퍼스 변경"]
         if campus == 1:
