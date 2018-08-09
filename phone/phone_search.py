@@ -1,4 +1,11 @@
 import sqlite3
+
+class Strings(Enum):
+    NO_PHONE_NUMBER = "검색된 전화번호가 없습니다."
+    BA = "경영"
+    BA_SEARCH_ATTEMPT = "경영학과는 검색이 불가능합니다."
+
+
 def phone_seoul(content):
     conn = sqlite3.connect('phone_seoul.db')
     cur = conn.cursor()
@@ -24,13 +31,13 @@ def phone_seoul(content):
         for x in total_phone:
             string += x[0] + ' 02-2220-' + x[1] + '\n'
     else:
-        string = '검색된 전화번호가 없습니다.'
+        string = Strings.NO_PHONE_NUMBER.value
     return string
 
 
 def phone_erica(content):
-    if content == "경영":
-        return "경영학과는 검색이 불가능합니다."
+    if content == Strings.BA.value:
+        return Strings.BA_SEARCH_ATTEMPT.value
     conn = sqlite3.connect('phone.db')
     cur = conn.cursor()
     sql = "select * from inschool"
@@ -97,5 +104,5 @@ def phone_erica(content):
         for x in total_phone:
             string += x[0] + ' ' + x[1] + '\n'
     else:
-        string = '검색된 전화번호가 없습니다.'
+        string = Strings.NO_PHONE_NUMBER
     return string
