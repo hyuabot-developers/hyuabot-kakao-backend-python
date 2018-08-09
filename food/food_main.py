@@ -6,7 +6,8 @@ from datetime import datetime
 
 def food_main(cafeteria):
     now = datetime.now()
-    string = datetime.today().strftime('%Y-%m-%d')
+    date_time_string = datetime.today().strftime('%Y-%m-%d')
+
     if 'erica' in cafeteria:
         campus = 'ERICA'
     else:
@@ -15,35 +16,35 @@ def food_main(cafeteria):
     received_json = food_crawl.food_request_main(campus, cafeteria)
     menus = received_json['store']['menus']
     if now.hour < 10:
-        string += '의 조식\n'
+        date_time_string += '의 조식\n'
         for x in menus:
             if x['time'] == 0:
                 menu_list += [x]
     elif now.hour <15:
-        string += '의 중식\n'
+        date_time_string += '의 중식\n'
         for x in menus:
             if x['time'] == 1:
                 menu_list += [x]
     else:
-        string += '의 석식\n'
+        date_time_string += '의 석식\n'
         for x in menus:
             if x['time'] == 2:
                 menu_list += [x]
     if menu_list == []:
-        string += '식단이 제공되지 않습니다'
+        date_time_string += '식단이 제공되지 않습니다'
     for x in menu_list:
         if x['name'] != '':
-            string += x['name'] + ' '
+            date_time_string += x['name'] + ' '
         try:
-            string += str(x['price']) + '원\n'
+            date_time_string += str(x['price']) + '원\n'
         except:
             pass
         for y in x['description'].split(' '):
-            string += y + '\n'
-        string += '\n'
-    if string[-1] == '\n':
-        string = string[:-1]
-    return string
+            date_time_string += y + '\n'
+        date_time_string += '\n'
+    if date_time_string[-1] == '\n':
+        date_time_string = date_time_string[:-1]
+    return date_time_string
 
 def make_string_food(content, campus=1):
     if "학생식당" in content:
