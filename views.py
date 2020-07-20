@@ -160,6 +160,11 @@ def shuttle(request):
         stop_korean = answer.split("의")[0]
     else:
         stop_korean = answer.split(" ")[1]
+    if stop_korean == "셔틀콕":
+        if "건너편" in answer:
+            stop_korean = "셔틀콕 건너편"
+        else:
+            stop_korean = "셔틀콕"
     stop = stop_list[stop_korean]
     now = datetime.datetime.now() + datetime.timedelta(hours=9)
     rest_date = [(12, 25), (1, 1)]
