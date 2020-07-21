@@ -14,6 +14,7 @@ from .transport.shuttle.date import is_seasonal, is_semester
 
 # Google firebase
 from firebase_admin import credentials, firestore, initialize_app
+import firebase_admin
 
 # global answer
 base_response = {'version': '2.0', 'template': {'outputs': [], 'quickReplies': []}}
@@ -24,6 +25,8 @@ def get_cred():
     # cred = credentials.Certificate('C:\\Users\\Jeongin\\Downloads\\personal-sideprojects.json')
     return cred
 
+
+
 # Get users answer and user key.
 def json_parser(request):
     answer = json.loads(request.body.decode("utf-8"))["userRequest"]["utterance"]
@@ -33,8 +36,9 @@ def json_parser(request):
 
 # Get User info.
 def get_user(user_key):
-    cred = get_cred()
-    initialize_app(cred, {'projectId': 'personal-sideprojects'})
+    if (not len(firebase_admin._apps)):
+        cred = get_cred()
+        initialize_app(cred, {'projectId': 'personal-sideprojects'})
     db = firestore.client()
     users = db.collection('botuser').where('id', '==', user_key)
     for user in users.stream():
@@ -43,8 +47,9 @@ def get_user(user_key):
 
 # Insert User Info
 def create_user(user_key, campus):
-    cred = get_cred()
-    initialize_app(cred, {'projectId': 'personal-sideprojects'})
+    if (not len(firebase_admin._apps)):
+        cred = get_cred()
+        initialize_app(cred, {'projectId': 'personal-sideprojects'})
     db = firestore.client()
     user = db.collection('botuser').document(user_key)
     user.update({'id' : user_key, 'campus' : campus})
@@ -52,8 +57,9 @@ def create_user(user_key, campus):
 
 # Update User Info
 def update_user(user_key, campus):
-    cred = get_cred()
-    initialize_app(cred, {'projectId': 'personal-sideprojects'})
+    if (not len(firebase_admin._apps)):
+        cred = get_cred()
+        initialize_app(cred, {'projectId': 'personal-sideprojects'})
     db = firestore.client()
     user = db.collection('botuser').document(user_key)
     user.update({'id' : user_key, 'campus' : campus})
