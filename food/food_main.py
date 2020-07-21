@@ -13,7 +13,7 @@ def crawling(cafeteria, date=None):
     if "학식메뉴" in cafeteria:
         return "ERICA캠퍼스의 식당 목록입니다"
     request_url = "https://bablabs.com/openapi/v1/campuses/" + campus + "/stores/" + cafeterias[cafeteria]
-    today = datetime.datetime.now() + datetime.timedelta(hours=9)
+    today = datetime.datetime.now()
     if not date:
         date = "%s-%s-%s"%(today.year, today.month, today.day)
     headers = {"Accesstoken" : os.getenv("bob")}
@@ -99,7 +99,7 @@ def crawling2(cafeteria, date=None):
     if "학식메뉴" in cafeteria:
         return "서울캠퍼스의 식당 목록입니다"
     request_url = "https://bablabs.com/openapi/v1/campuses/" + campus + "/stores/" + cafeterias[cafeteria]
-    today = datetime.datetime.now() + datetime.timedelta(hours=9)
+    today = datetime.datetime.now()
     if not date:
         date = "%s-%s-%s"%(today.year, today.month, today.day)
     headers = {"Accesstoken" : os.getenv("bob")}
