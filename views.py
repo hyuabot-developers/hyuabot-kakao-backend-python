@@ -36,9 +36,9 @@ def get_user(user_key):
     cred = get_cred()
     initialize_app(cred, {'projectId': 'personal-sideprojects'})
     db = firestore.client()
-    user = db.collection('botuser').document(user_key).get()
-    user_info = user.to_dic()['campus']
-    return user_info
+    users = db.collection('botuser').where('id', '==', user_key)
+    for user in users.stream():
+        return user.to_dict()
 
 
 # Insert User Info
@@ -47,7 +47,7 @@ def create_user(user_key, campus):
     initialize_app(cred, {'projectId': 'personal-sideprojects'})
     db = firestore.client()
     user = db.collection('botuser').document(user_key)
-    user.update({'campus' : campus})
+    user.update({'id' : user_key, 'campus' : campus})
 
 
 # Update User Info
@@ -56,7 +56,7 @@ def update_user(user_key, campus):
     initialize_app(cred, {'projectId': 'personal-sideprojects'})
     db = firestore.client()
     user = db.collection('botuser').document(user_key)
-    user.update({'campus' : campus})
+    user.update({'id' : user_key, 'campus' : campus})
 
 
 # Make Image Answer
@@ -121,7 +121,7 @@ def make_reply(label, message, block_id):
 
 # Get CampusInfo
 def is_seoul(user_info):
-    return user_info == 1
+    return user_info['campus'] == 1
 
 
 @csrf_exempt
