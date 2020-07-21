@@ -68,7 +68,7 @@ def crawling_lib2(location = None):
     seoul_collec = db.collection('libinfo').document('Seoul')
     libinfo = seoul_collec.collection('library_list').stream()
     if location == 0:
-        for x in libinfo[4:]:
+        for x in libinfo:
             string += x.id + " "
             totalseat = x.to_dict()['total']
             activeseat = x.to_dict()['active']
