@@ -1,7 +1,6 @@
 import datetime
 import json
 import os
-import psycopg2
 
 from copy import deepcopy
 from django.http import JsonResponse
@@ -32,40 +31,40 @@ def json_parser(request):
     return answer, user
 
 
-# Get User info.
-def get_user(user_key):
-    conn = psycopg2.connect(connection)
-    cursor = conn.cursor()
-    sql = f"select * from userinfo where id='{user_key}'"
-    cursor.execute('create table if not exists userinfo(id text, campus text)')
-    cursor.execute(sql)
-    user_info = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return user_info
+# # Get User info.
+# def get_user(user_key):
+#     conn = psycopg2.connect(connection)
+#     cursor = conn.cursor()
+#     sql = f"select * from userinfo where id='{user_key}'"
+#     cursor.execute('create table if not exists userinfo(id text, campus text)')
+#     cursor.execute(sql)
+#     user_info = cursor.fetchall()
+#     cursor.close()
+#     conn.close()
+#     return user_info
 
 
-# Insert User Info
-def create_user(user_key, campus):
-    conn = psycopg2.connect(connection)
-    cursor = conn.cursor()
-    sql = 'INSERT INTO userinfo(id, campus) values (%s, %s)'
-    cursor.execute('create table if not exists userinfo(id text, campus text)')
-    cursor.execute(sql, (user_key, campus))
-    conn.commit()
-    cursor.close()
-    conn.close()
+# # Insert User Info
+# def create_user(user_key, campus):
+#     conn = psycopg2.connect(connection)
+#     cursor = conn.cursor()
+#     sql = 'INSERT INTO userinfo(id, campus) values (%s, %s)'
+#     cursor.execute('create table if not exists userinfo(id text, campus text)')
+#     cursor.execute(sql, (user_key, campus))
+#     conn.commit()
+#     cursor.close()
+#     conn.close()
 
 
-# Update User Info
-def update_user(user_key, campus):
-    conn = psycopg2.connect(connection)
-    cursor = conn.cursor()
-    sql = "update userinfo set campus=%s where id=%s"
-    cursor.execute(sql, (campus, user_key))
-    conn.commit()
-    cursor.close()
-    conn.close()
+# # Update User Info
+# def update_user(user_key, campus):
+#     conn = psycopg2.connect(connection)
+#     cursor = conn.cursor()
+#     sql = "update userinfo set campus=%s where id=%s"
+#     cursor.execute(sql, (campus, user_key))
+#     conn.commit()
+#     cursor.close()
+#     conn.close()
 
 
 # Make Image Answer
