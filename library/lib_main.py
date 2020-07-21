@@ -1,145 +1,135 @@
-# import requests, os, time, psycopg2
-# from bs4 import BeautifulSoup
+import requests, os, time
+from bs4 import BeautifulSoup
+# Google firebase
+from firebase_admin import credentials, firestore, initialize_app
+
+def crawling_lib(location = None):
+    string = ""
+    # cred = credentials.ApplicationDefault()
+    cred = credentials.Certificate('C:\\Users\\Jeongin\\Downloads\\personal-sideprojects.json')
+    initialize_app(cred, {'projectId': 'personal-sideprojects'})
+    db = firestore.client()
+    erica_collec = db.collection('libinfo').document('ERICA')
+    libinfo = erica_collec.collection('library_list').stream()
+    if location == 0:
+        for x in libinfo:
+            string += x.id + " "
+            totalseat = x.to_dict()['total']
+            activeseat = x.to_dict()['active']
+            remained = totalseat - activeseat
+            string += f"잔여 {remained}석\n"
+    elif location == 1:
+        info = erica_collec.collection('library_list').document('제1열람실').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
+    elif location == 3:
+        info = erica_collec.collection('library_list').document('제3열람실').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
+    elif location == 4:
+        info = erica_collec.collection('library_list').document('제4열람실').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
+    elif location == 5:
+        info = erica_collec.collection('library_list').document('제5열람실').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
+    return string.strip()
 
 
-# def crawling_lib(location = None):
-#     conn_sql = "host='" + os.getenv("dbhost") + "' dbname=" + os.getenv("dbname") + " user='" + os.getenv("dbuser") + "' password='" + os.getenv("dbpassword") + "'"
-#     conn = psycopg2.connect(conn_sql)
-#     cursor = conn.cursor()
-#     string = ""
-#     sql = "select * from time"
-#     cursor.execute(sql)
-#     time = cursor.fetchone()
-#     string += str(time[0]) + "월" + str(time[1]) + "일" + str(time[2]) + "시" + str(time[3]) + "분 기준\n" 
-#     sql = "select * from libinfo"
-#     cursor.execute(sql)
-#     libinfo = cursor.fetchall()
-#     if location == 0:
-#         for x in libinfo[:4]:
-#             string += x[0] + " "
-#             totalseat = int(x[1])
-#             activeseat = int(x[2])
-#             remained = totalseat - activeseat
-#             string += "잔여 " + str(remained) + "석\n"
-#     elif location == 1:
-#         info = libinfo[0]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     elif location == 3:
-#         info = libinfo[1]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     elif location == 4:
-#         info = libinfo[2]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     elif location == 5:
-#         info = libinfo[3]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     cursor.close()
-#     conn.close()
-#     return string.strip()
-
-# def crawling_lib2(location = None):
-#     conn_sql = "host='" + os.getenv("dbhost") + "' dbname=" + os.getenv("dbname") + " user='" + os.getenv("dbuser") + "' password='" + os.getenv("dbpassword") + "'"
-#     conn = psycopg2.connect(conn_sql)
-#     cursor = conn.cursor()
-#     string = ""
-#     sql = "select * from time"
-#     cursor.execute(sql)
-#     time = cursor.fetchone()
-#     string += str(time[0]) + "월" + str(time[1]) + "일" + str(time[2]) + "시" + str(time[3]) + "분 기준\n" 
-#     sql = "select * from libinfo"
-#     cursor.execute(sql)
-#     libinfo = cursor.fetchall()
-#     if location == 0:
-#         for x in libinfo[4:]:
-#             string += x[0] + " "
-#             totalseat = int(x[1])
-#             activeseat = int(x[2])
-#             remained = totalseat - activeseat
-#             string += "잔여 " + str(remained) + "석\n"
-#     elif location == 1:
-#         info = libinfo[-4]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     elif location == 2:
-#         info = libinfo[-3]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     elif location == 3:
-#         info = libinfo[-2]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     elif location == 4:
-#         info = libinfo[-1]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     elif location == 5:
-#         info = libinfo[4]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     elif location == 6:
-#         info = libinfo[5]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     elif location == 7:
-#         info = libinfo[6]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     elif location == 8:
-#         info = libinfo[7]
-#         string += info[0] + "\n"
-#         string += "총 좌석:" + str(info[1]) + "석\n"
-#         string += "사용중:" + str(info[2]) + "석\n"
-#         remained = info[1] - info[2]
-#         string += "잔여좌석:" + str(remained) + "석\n"
-#         string += "점유율:" + str(info[3]) + "\n"
-#     cursor.close()
-#     conn.close()
-#     return string.strip()
+def crawling_lib2(location = None):
+    string = ""
+    # cred = credentials.ApplicationDefault()
+    cred = credentials.Certificate('C:\\Users\\Jeongin\\Downloads\\personal-sideprojects.json')
+    initialize_app(cred, {'projectId': 'personal-sideprojects'})
+    db = firestore.client()
+    seoul_collec = db.collection('libinfo').document('Seoul')
+    libinfo = seoul_collec.collection('library_list').stream()
+    if location == 0:
+        for x in libinfo[4:]:
+            string += x.id + " "
+            totalseat = x.to_dict()['total']
+            activeseat = x.to_dict()['active']
+            remained = totalseat - activeseat
+            string += f"잔여 {remained}석\n"
+    elif location == 1:
+        info = seoul_collec.collection('library_list').document('제1열람실').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
+    elif location == 2:
+        info = seoul_collec.collection('library_list').document('제2열람실').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n
+    elif location == 3:
+        info = seoul_collec.collection('library_list').document('제3열람실').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n
+    elif location == 4:
+        info = seoul_collec.collection('library_list').document('제4열람실').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n
+    elif location == 5:
+        info = seoul_collec.collection('library_list').document('법학 대학원열람실').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n
+    elif location == 6:
+        info = seoul_collec.collection('library_list').document('법학 제1열람실').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n
+    elif location == 7:
+        info = seoul_collec.collection('library_list').document('법학 제2열람실A').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n
+    elif location == 8:
+        info = seoul_collec.collection('library_list').document('법학 제2열람실B').get()
+        string += info.id + "\n"
+        string += f"총 좌석 : {info.to_dict()['total']}석\n"
+        string += f"사용중 : {info.to_dict()['active']}석\n"
+        remained = info.to_dict()['total'] - info.to_dict()['active']
+        string += f"잔여좌석 : {remained}석\n"
+        string += f"점유율 : {info.to_dict()['occupied']}\n
+    return string.strip()
