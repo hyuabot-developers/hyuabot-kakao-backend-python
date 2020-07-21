@@ -61,9 +61,9 @@ def crawling_lib(location = None):
 
 def crawling_lib2(location = None):
     string = ""
-    # cred = credentials.ApplicationDefault()
-    cred = credentials.Certificate('C:\\Users\\Jeongin\\Downloads\\personal-sideprojects.json')
-    initialize_app(cred, {'projectId': 'personal-sideprojects'})
+    if (not len(firebase_admin._apps)):
+        cred = get_cred()
+        initialize_app(cred, {'projectId': 'personal-sideprojects'})
     db = firestore.client()
     seoul_collec = db.collection('libinfo').document('Seoul')
     libinfo = seoul_collec.collection('library_list').stream()
