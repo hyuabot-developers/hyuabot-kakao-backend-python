@@ -12,17 +12,17 @@ from .transport.shuttle_main import shuttle_main
 from .transport.shuttle.strings import first_last
 from .transport.shuttle.date import is_seasonal, is_semester
 
-
-# global variables
-host = os.getenv("dbhost")
-name = os.getenv("dbname")
-dbuser = os.getenv("dbuser")
-password = os.getenv("dbpassword")
-connection = f"host='{host}' dbname={name} user='{dbuser}' password='{password}'"
+# Google firebase
+from firebase_admin import credentials, firestore, initialize_app
 
 # global answer
 base_response = {'version': '2.0', 'template': {'outputs': [], 'quickReplies': []}}
 
+# Get firebase auth credential
+def get_cred():
+    cred = credentials.ApplicationDefault()
+    # cred = credentials.Certificate('C:\\Users\\Jeongin\\Downloads\\personal-sideprojects.json')
+    return cred
 
 # Get users answer and user key.
 def json_parser(request):
@@ -31,40 +31,32 @@ def json_parser(request):
     return answer, user
 
 
-# # Get User info.
-# def get_user(user_key):
-#     conn = psycopg2.connect(connection)
-#     cursor = conn.cursor()
-#     sql = f"select * from userinfo where id='{user_key}'"
-#     cursor.execute('create table if not exists userinfo(id text, campus text)')
-#     cursor.execute(sql)
-#     user_info = cursor.fetchall()
-#     cursor.close()
-#     conn.close()
-#     return user_info
+# Get User info.
+def get_user(user_key):
+    cred = get_cred()
+    initialize_app(cred, {'projectId': 'personal-sideprojects'})
+    db = firestore.client()
+    user = db.collection('botuser').document(user_key).get()
+    user_info = user.to_dic()['campus']
+    return user_info
 
 
-# # Insert User Info
-# def create_user(user_key, campus):
-#     conn = psycopg2.connect(connection)
-#     cursor = conn.cursor()
-#     sql = 'INSERT INTO userinfo(id, campus) values (%s, %s)'
-#     cursor.execute('create table if not exists userinfo(id text, campus text)')
-#     cursor.execute(sql, (user_key, campus))
-#     conn.commit()
-#     cursor.close()
-#     conn.close()
+# Insert User Info
+def create_user(user_key, campus):
+    cred = get_cred()
+    initialize_app(cred, {'projectId': 'personal-sideprojects'})
+    db = firestore.client()
+    user = db.collection('botuser').document(user_key)
+    user.update({'campus' : campus})
 
 
-# # Update User Info
-# def update_user(user_key, campus):
-#     conn = psycopg2.connect(connection)
-#     cursor = conn.cursor()
-#     sql = "update userinfo set campus=%s where id=%s"
-#     cursor.execute(sql, (campus, user_key))
-#     conn.commit()
-#     cursor.close()
-#     conn.close()
+# Update User Info
+def update_user(user_key, campus):
+    cred = get_cred()
+    initialize_app(cred, {'projectId': 'personal-sideprojects'})
+    db = firestore.client()
+    user = db.collection('botuser').document(user_key)
+    user.update({'campus' : campus})
 
 
 # Make Image Answer
@@ -128,8 +120,8 @@ def make_reply(label, message, block_id):
 
 
 # Get CampusInfo
-def is_seoul(user_list):
-    return int(user_list[0][1])
+def is_seoul(user_info):
+    return user_info == 1
 
 
 @csrf_exempt
