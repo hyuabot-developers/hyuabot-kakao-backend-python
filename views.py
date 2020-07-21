@@ -52,7 +52,7 @@ def create_user(user_key, campus):
         initialize_app(cred, {'projectId': 'personal-sideprojects'})
     db = firestore.client()
     user = db.collection('botuser').document(user_key)
-    user.update({'id' : user_key, 'campus' : campus})
+    user.set({'id' : user_key, 'campus' : campus})
 
 
 # Update User Info
@@ -62,7 +62,7 @@ def update_user(user_key, campus):
         initialize_app(cred, {'projectId': 'personal-sideprojects'})
     db = firestore.client()
     user = db.collection('botuser').document(user_key)
-    user.update({'id' : user_key, 'campus' : campus})
+    user.update({'campus' : campus})
 
 
 # Make Image Answer
