@@ -83,7 +83,7 @@ def crawling_lib2(location = None):
         string += f"사용중 : {info.to_dict()['active']}석\n"
         remained = info.to_dict()['total'] - info.to_dict()['active']
         string += f"잔여좌석 : {remained}석\n"
-        string += f"점유율 : {info.to_dict()['occupied']}\n
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
     elif location == 3:
         info = seoul_collec.collection('library_list').document('제3열람실').get()
         string += info.id + "\n"
@@ -91,7 +91,7 @@ def crawling_lib2(location = None):
         string += f"사용중 : {info.to_dict()['active']}석\n"
         remained = info.to_dict()['total'] - info.to_dict()['active']
         string += f"잔여좌석 : {remained}석\n"
-        string += f"점유율 : {info.to_dict()['occupied']}\n
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
     elif location == 4:
         info = seoul_collec.collection('library_list').document('제4열람실').get()
         string += info.id + "\n"
@@ -99,7 +99,7 @@ def crawling_lib2(location = None):
         string += f"사용중 : {info.to_dict()['active']}석\n"
         remained = info.to_dict()['total'] - info.to_dict()['active']
         string += f"잔여좌석 : {remained}석\n"
-        string += f"점유율 : {info.to_dict()['occupied']}\n
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
     elif location == 5:
         info = seoul_collec.collection('library_list').document('법학 대학원열람실').get()
         string += info.id + "\n"
@@ -107,7 +107,7 @@ def crawling_lib2(location = None):
         string += f"사용중 : {info.to_dict()['active']}석\n"
         remained = info.to_dict()['total'] - info.to_dict()['active']
         string += f"잔여좌석 : {remained}석\n"
-        string += f"점유율 : {info.to_dict()['occupied']}\n
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
     elif location == 6:
         info = seoul_collec.collection('library_list').document('법학 제1열람실').get()
         string += info.id + "\n"
@@ -115,7 +115,7 @@ def crawling_lib2(location = None):
         string += f"사용중 : {info.to_dict()['active']}석\n"
         remained = info.to_dict()['total'] - info.to_dict()['active']
         string += f"잔여좌석 : {remained}석\n"
-        string += f"점유율 : {info.to_dict()['occupied']}\n
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
     elif location == 7:
         info = seoul_collec.collection('library_list').document('법학 제2열람실A').get()
         string += info.id + "\n"
@@ -123,7 +123,7 @@ def crawling_lib2(location = None):
         string += f"사용중 : {info.to_dict()['active']}석\n"
         remained = info.to_dict()['total'] - info.to_dict()['active']
         string += f"잔여좌석 : {remained}석\n"
-        string += f"점유율 : {info.to_dict()['occupied']}\n
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
     elif location == 8:
         info = seoul_collec.collection('library_list').document('법학 제2열람실B').get()
         string += info.id + "\n"
@@ -131,5 +131,5 @@ def crawling_lib2(location = None):
         string += f"사용중 : {info.to_dict()['active']}석\n"
         remained = info.to_dict()['total'] - info.to_dict()['active']
         string += f"잔여좌석 : {remained}석\n"
-        string += f"점유율 : {info.to_dict()['occupied']}\n
+        string += f"점유율 : {info.to_dict()['occupied']}\n"
     return string.strip()
