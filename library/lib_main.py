@@ -5,8 +5,8 @@ from firebase_admin import credentials, firestore, initialize_app
 
 def crawling_lib(location = None):
     string = ""
-    # cred = credentials.ApplicationDefault()
-    cred = credentials.Certificate('C:\\Users\\Jeongin\\Downloads\\personal-sideprojects.json')
+    cred = credentials.ApplicationDefault()
+    # cred = credentials.Certificate('C:\\Users\\Jeongin\\Downloads\\personal-sideprojects.json')
     initialize_app(cred, {'projectId': 'personal-sideprojects'})
     db = firestore.client()
     erica_collec = db.collection('libinfo').document('ERICA')
