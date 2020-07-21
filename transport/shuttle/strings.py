@@ -8,7 +8,7 @@ except:
 def make_string(where, destination):
     where_dic = {"shuttleOut":"Shuttlecock_O", "shuttleIn":"Shuttlecock_I", "subway":"Subway", "terminal":"YesulIn", "dorm":"Residence"}
     received_json = shuttle.request(where_dic[where])
-    now = datetime.datetime.now() + datetime.timedelta(hours=9)
+    now = datetime.datetime.now()
     timetable = received_json[list(received_json.keys())[0]]
     arrival_list = []
     string = ""
