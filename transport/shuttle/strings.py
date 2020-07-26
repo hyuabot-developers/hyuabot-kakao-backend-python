@@ -47,7 +47,7 @@ def first_last(where):
     if where == "shuttleOut":
         stop_list = {"DH" : "한대앞 직행", "DY" : "예술인 직행", "C" : "순환버스"}
     elif where == "shuttleIn":
-        stop_list = {"DH" : "기숙사행", "DY" : "기숙사행", "R" : "기숙사행", "NA" : "셔틀콕 종착"}
+        stop_list = {"DH" : "기숙사행", "DY" : "기숙사행", "R" : "기숙사행", "NA" : "셔틀콕 종착", "C" : "기숙사행"}
     elif where == "subway":
         stop_list = {"" : "셔틀콕 직행", "C" : "순환버스"}
     elif where == "terminal":
