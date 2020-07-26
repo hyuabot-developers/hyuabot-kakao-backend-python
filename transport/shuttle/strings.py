@@ -65,7 +65,7 @@ def first_last(where):
 
 def make2_string(route):
     received_json = shuttle.request2()
-    now = datetime.datetime.now() + datetime.timedelta(hours=9)
+    now = datetime.datetime.now()
     come_list = ["route1", "route2", "route3", "route4", "route5"]
     go_list = ["routeA", "routeB", "routeC", "routeD"]
     info = received_json[route]

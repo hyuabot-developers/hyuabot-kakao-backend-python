@@ -8,7 +8,7 @@ from workalendar.asia import SouthKorea
 
 holiday = [(5, 15)]
 def request(stopName):
-    now = datetime.datetime.now() + datetime.timedelta(hours=9)
+    now = datetime.datetime.now()
     cal = SouthKorea()
     # 학기중일 때
     if is_semester(now.month, now.day):
@@ -52,7 +52,7 @@ def request(stopName):
     return response.json()
 
 def request2():
-    now = datetime.datetime.now() + datetime.timedelta(hours=9)
+    now = datetime.datetime.now()
     cal = SouthKorea()
     # 학기중일 때
     if is_semester(now.month, now.day) and now.weekday() not in [5, 6] and cal.is_working_day(now):

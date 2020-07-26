@@ -132,7 +132,7 @@ def is_seoul(user_info):
 
 @csrf_exempt
 def shuttle_photo(request):
-    now = datetime.datetime.now() + datetime.timedelta(hours=9)
+    now = datetime.datetime.now()
     base_link = "https://raw.githubusercontent.com/jil8885/chatbot/release/hyuabot/templates/"
     if is_semester(now.month, now.day):
         path = "semester.jpg"
@@ -163,7 +163,7 @@ def shuttle(request):
         else:
             stop_korean = "셔틀콕"
     stop = stop_list[stop_korean]
-    now = datetime.datetime.now() + datetime.timedelta(hours=9)
+    now = datetime.datetime.now()
     rest_date = [(12, 25), (1, 1)]
     if (now.month, now.day) in rest_date:
         string = "당일, %d월 %d일은 셔틀 미운행합니다." % (now.month, now.day)       
