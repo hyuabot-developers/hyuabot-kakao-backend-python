@@ -17,7 +17,7 @@ def crawling(cafeteria, date=None):
         "푸드코트" : Cafeteria.foodcoart_erica}
     if "학식메뉴" in cafeteria:
         return "ERICA캠퍼스의 식당 목록입니다"
-    today = datetime.datetime.now() + datetime.timedelta(hours=9)
+    today = datetime.datetime.now()
     # 시간별 조식, 중식, 석식을 나눔
     string += "%s년%s월%s일 "%(today.year, today.month, today.day)
     cafeteria_code = cafeterias[cafeteria]
@@ -74,7 +74,7 @@ def crawling2(cafeteria, date=None):
         }
     if "학식메뉴" in cafeteria:
         return "서울캠퍼스의 식당 목록입니다"
-    today = datetime.datetime.now() + datetime.timedelta(hours=9)
+    today = datetime.datetime.now()
     # 시간별 조식, 중식, 석식을 나눔
     string += "%s년%s월%s일 "%(today.year, today.month, today.day)
     cafeteria_code = cafeterias[cafeteria]
