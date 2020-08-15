@@ -2,7 +2,7 @@ import requests, os
 from bs4 import BeautifulSoup
 import datetime
 
-from food_crawl import Cafeteria, get_recipe
+from .food_crawl import Cafeteria, get_recipe
 def make_string_food(cafeteria):
     string = crawling(cafeteria)
     return string
