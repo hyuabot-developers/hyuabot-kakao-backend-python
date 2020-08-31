@@ -4,6 +4,8 @@ def is_semester(month, day):
     vacation = [1, 2, 5, 7, 8]
     # return False
     if month in semester:
+        if month == 9 and day < 15:
+            return False
         return True
     elif month in vacation:
         return False
