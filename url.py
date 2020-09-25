@@ -1,30 +1,36 @@
 # External Module
-from flask import Blueprint, request
+from flask import request
+from flask_restx import Namespace, Resource
 
 # Internal Module
-from transport.date import get_date
+from transport.shuttle.get_info import get_departure_info
 
-# Declare blueprint object
-kakao_url = Blueprint('kakao_url', __name__)
+# Declare namespace object
+kakao_url = Namespace('kakao')
 
 # Route urls
 @kakao_url.route('/shuttle')
-def shuttle():
-    get_date()
-    return 'shuttle'
+class get_shuttle(Resource):
+    def get(self):
+        get_departure_info()
+        return 'shuttle'
 
 @kakao_url.route('/food')
-def food():
-    return 'food'
+class get_food(Resource):
+    def get(self): 
+        return 'food'   
 
 @kakao_url.route('/library')
-def library():
-    return 'library'
+class search_book(Resource):
+    def get(self):
+        return 'library'
 
 @kakao_url.route('/update/campus')
-def update_campus():
-    return 'campus update'
+class update_campus(Resource):
+    def get(self):
+        return 'campus update'
 
 @kakao_url.route('/shuttle/detail')
-def shuttle_detail():
-    return 'shuttle stop detail'
+class shuttle_detail(Resource):
+    def get(self):
+        return 'shuttle stop detail'
