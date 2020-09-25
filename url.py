@@ -1,9 +1,10 @@
 # External Module
-from flask import request
+from flask import request, jsonify
 from flask_restx import Namespace, Resource
 
 # Internal Module
-from transport.shuttle.get_info import get_departure_info
+from kakao.common.receiver import get_user_data # To parse answer json
+from kakao.make_answer import make_answser_shuttle_depart_info # To get departure info
 
 # Declare namespace object
 kakao_url = Namespace('kakao')
@@ -11,9 +12,10 @@ kakao_url = Namespace('kakao')
 # Route urls
 @kakao_url.route('/shuttle')
 class get_shuttle(Resource):
-    def get(self):
-        get_departure_info()
-        return 'shuttle'
+    def post(self):
+        _, user_answer = get_user_data(request.get_json())
+        result_json = make_answser_shuttle_depart_info(user_answer)
+        return jsonify(result_json)
 
 @kakao_url.route('/food')
 class get_food(Resource):
