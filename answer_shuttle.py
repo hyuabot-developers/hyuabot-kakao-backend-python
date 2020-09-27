@@ -110,7 +110,6 @@ def make_answer_shuttle_stop_detail(user_answer):
     stop_view = {"shuttle": "http://kko.to/Kf-ZqboYH", "station": "http://kko.to/IyyXgzPDo",
                  "dormitory": "http://kko.to/vClEubBDj", "terminal": "http://kko.to/guG2uboYB"}
     stop_name = user_answer.split('정류장 정보입니다')[0].strip()
-    print(stop_name)
     stop_key = stop_list[stop_name]
     bool_semester, bool_weekend, bus_to_come_dh, bus_to_come_dy, bus_to_come_c = get_first_last_departure(stop_name)
     if bool_semester == 'halt':
