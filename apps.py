@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class HyuabotConfig(AppConfig):
-    name = 'hyuabot'
+class KakaoIHanyangConfig(AppConfig):
+    name = 'kakao-i-hanyang'
