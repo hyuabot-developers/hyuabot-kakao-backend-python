@@ -1,11 +1,10 @@
 from django.urls import path
-from . import views
+from kakao_i_hanyang.views import *
 
 urlpatterns = [
-    path('shuttlephoto', views.shuttle_photo),
-    path('shuttlestop', views.stop_detail),
-    path('shuttle', views.shuttle),
-    path('food', views.food),
-    path('lib', views.library),
-    path('campus', views.update_campus)
+    path('shuttle', get_shuttle_departure_info),
+    path('shuttle/stop', get_shuttle_stop_info),
+    path('food', get_food_menu),
+    path('library/seats', get_reading_room_seat_info),
+    path('update/campus', update_campus)
 ]
