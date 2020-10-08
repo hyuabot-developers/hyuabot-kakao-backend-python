@@ -32,10 +32,18 @@ def make_answer_food_menu(campus, user_answer=''):
     cafeteria = cafeterias[user_answer]
     recipe = get_recipe(cafeteria)
     string = f'{recipe["time"].strip()}\n'
-    if not any(recipe.keys()) in ['조식', '중식', '석식']:
+
+    is_working = False
+    for key in recipe.keys():
+        if key in ['조식', '중식', '석식']:
+            is_working = True
+            break
+
+    if not is_working:
         string += '오늘 식당은 운영하지 않습니다.'
-        response = insert_text(string)
+        response = insert_text(string.strip())
         return response
+
 
     if now.hour < 10:
         if "조식" in recipe.keys():
@@ -72,7 +80,7 @@ def make_answer_food_menu(campus, user_answer=''):
     else:
         rest_list = ['학생식당', '교직원식당', '창의인재원식당', '창업보육센터', '푸드코트']
 
-    response = insert_text(string)
+    response = insert_text(string.strip())
     block_id = '5eaa9b11cdbc3a00015a23fb'
     for restaurant in rest_list:
         reply = make_reply(restaurant, f"{restaurant}의 식단입니다", block_id)
