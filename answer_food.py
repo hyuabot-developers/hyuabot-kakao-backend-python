@@ -44,7 +44,6 @@ def make_answer_food_menu(campus, user_answer=''):
         response = insert_text(string.strip())
         return response
 
-
     if now.hour < 10:
         if "조식" in recipe.keys():
             string += "조식\n"
@@ -83,7 +82,7 @@ def make_answer_food_menu(campus, user_answer=''):
     response = insert_text(string.strip())
     block_id = '5eaa9b11cdbc3a00015a23fb'
     for restaurant in rest_list:
-        reply = make_reply(restaurant, f"{restaurant}의 식단입니다", block_id)
+        reply = make_reply(restaurant, f"{restaurant}의 식단입니다.", block_id)
         response = insert_replies(response, reply)
 
     return response
