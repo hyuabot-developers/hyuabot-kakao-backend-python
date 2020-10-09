@@ -1,55 +1,211 @@
-from sanic import Blueprint
-# Declare namespace object
-kakao_url = Blueprint("kakao", url_prefix="/kakao")
+from pydantic import BaseModel
+from typing import Optional
 
-# kakao_data = kakao_url.model(
-#     'Default', {
-#         'intent': fields.Nested(
-#             model={
-#                 'id': fields.String(example='7exhlpxxfhkkgwm8zo3emniq'),
-#                 'name': fields.String(example='블록명')
-#             },
-#             description='Kakao i 내부의 intent의 block id'
-#         ),
-#         'userRequest': fields.Nested(
-#             model={
-#                 'timezone': fields.String(example='Asia/Seoul'),
-#                 'params': fields.Nested(
-#                     model={
-#                         'ignoreMe': fields.String(example='true')
-#                     }
-#                 ),
-#                 'block': fields.Nested(
-#                     model={
-#                         'id': fields.String(example='7exhlpxxfhkkgwm8zo3emniq', description='블록 ID'),
-#                         'name': fields.String(example='블록 이름', description='블록 이름')
-#                     }
-#                 ),
-#                 'utterance': fields.String(example='', description='발화 내용', required=True),
-#                 'lang': fields.String(example=None, description='언어 설정'),
-#                 'user': fields.Nested(
-#                     model={
-#                         'id': fields.String(example='276533', description='사용자별 고유번호', required=True),
-#                         'type': fields.String(example='accountId', description='고유번호 종류'),
-#                         'properties': fields.Nested(model={})
-#                     }
-#                 )
-#             }
-#         ),
-#         'bot': fields.Nested(
-#             model={
-#                 'id': fields.String(example='5cbf03fd5f38dd4c34bac577', description='봇 일련번호'),
-#                 'name': fields.String(example='봇 이름', description='봇 이름'),
-#             }
-#         ),
-#         'action': fields.Nested(
-#             model={
-#                 'name': fields.String(example='tfwbmwzclo', description='액션 이름'),
-#                 'clientExtra': fields.String(example=None),
-#                 'params': fields.Nested(model={}),
-#                 'id': fields.String(example='cn1hd5mm6ggpjai3utlm4gwp', description='액션 ID'),
-#                 'detailParams': fields.Nested(model={}),
-#             }
-#         )
-#     }
-# )
+
+# class Intent(BaseModel):
+#     id: Optional[str]
+#     name: Optional[str]
+#
+#
+# class Params(BaseModel):
+#     ignoreMe: Optional[str]
+#
+#
+# class Block(BaseModel):
+#     id: Optional[str]
+#     name: Optional[str]
+
+
+class User(BaseModel):
+    id: str
+    # type: Optional[str]
+    # properties: Optional[dict]
+
+
+# class Bot(BaseModel):
+#     id: Optional[str]
+#     name: Optional[str]
+
+
+# class Action(BaseModel):
+#     name: Optional[str]
+#     clientExtra: Optional[str]
+#     params: Optional[dict]
+#     id: Optional[str]
+#     detailParams: Optional[dict]
+
+
+class UserRequest(BaseModel):
+    timezone: Optional[str]
+    # params: Params
+    # block: Block
+    utterance: str
+    # lang: Optional[str]
+    user: User
+
+
+class KakaoRequest(BaseModel):
+    # intent: Intent
+    userRequest: UserRequest
+    # bot: Bot
+    # action: Action
+
+
+class ShuttleRequest(KakaoRequest):
+    class Config:
+        schema_extra = {
+            'example': {
+                "intent": {
+                    "id": "BlockID",
+                    "name": "BlockName"
+                },
+                "userRequest": {
+                    "timezone": "Asia/Seoul",
+                    "params": {
+                        "ignoreMe": "true"
+                    },
+                    "block": {
+                        "id": "BlockID",
+                        "name": "BlockName"
+                    },
+                    "utterance": "🏫 셔틀콕",
+                    "lang": None,
+                    "user": {
+                        "id": "469871",
+                        "type": "accountId",
+                        "properties": {}
+                    }
+                },
+                "bot": {
+                    "id": "BotID",
+                    "name": "BotName"
+                },
+                "action": {
+                    "name": "ActionName",
+                    "clientExtra": None,
+                    "params": {},
+                    "id": "ActionID",
+                    "detailParams": {}
+                }
+            }
+        }
+
+
+class FoodRequest(KakaoRequest):
+    class Config:
+        schema_extra = {
+            'example': {
+                "intent": {
+                    "id": "BlockID",
+                    "name": "BlockName"
+                },
+                "userRequest": {
+                    "timezone": "Asia/Seoul",
+                    "params": {
+                        "ignoreMe": "true"
+                    },
+                    "block": {
+                        "id": "BlockID",
+                        "name": "BlockName"
+                    },
+                    "utterance": "교직원식당의 식단입니다",
+                    "lang": None,
+                    "user": {
+                        "id": "469871",
+                        "type": "accountId",
+                        "properties": {}
+                    }
+                },
+                "bot": {
+                    "id": "BotID",
+                    "name": "BotName"
+                },
+                "action": {
+                    "name": "ActionName",
+                    "clientExtra": None,
+                    "params": {},
+                    "id": "ActionID",
+                    "detailParams": {}
+                }
+            }
+        }
+
+
+class ReadingRoomRequest(KakaoRequest):
+    class Config:
+        schema_extra = {
+            'example': {
+                "intent": {
+                    "id": "BlockID",
+                    "name": "BlockName"
+                },
+                "userRequest": {
+                    "timezone": "Asia/Seoul",
+                    "params": {
+                        "ignoreMe": "true"
+                    },
+                    "block": {
+                        "id": "BlockID",
+                        "name": "BlockName"
+                    },
+                    "utterance": "제3열람실의 좌석정보입니다",
+                    "lang": None,
+                    "user": {
+                        "id": "469871",
+                        "type": "accountId",
+                        "properties": {}
+                    }
+                },
+                "bot": {
+                    "id": "BotID",
+                    "name": "BotName"
+                },
+                "action": {
+                    "name": "ActionName",
+                    "clientExtra": None,
+                    "params": {},
+                    "id": "ActionID",
+                    "detailParams": {}
+                }
+            }
+        }
+
+
+class ShuttleStopRequest(KakaoRequest):
+    class Config:
+        schema_extra = {
+            'example': {
+                "intent": {
+                    "id": "BlockID",
+                    "name": "BlockName"
+                },
+                "userRequest": {
+                    "timezone": "Asia/Seoul",
+                    "params": {
+                        "ignoreMe": "true"
+                    },
+                    "block": {
+                        "id": "BlockID",
+                        "name": "BlockName"
+                    },
+                    "utterance": "한대앞역 정류장 정보입니다.",
+                    "lang": None,
+                    "user": {
+                        "id": "469871",
+                        "type": "accountId",
+                        "properties": {}
+                    }
+                },
+                "bot": {
+                    "id": "BotID",
+                    "name": "BotName"
+                },
+                "action": {
+                    "name": "ActionName",
+                    "clientExtra": None,
+                    "params": {},
+                    "id": "ActionID",
+                    "detailParams": {}
+                }
+            }
+        }
