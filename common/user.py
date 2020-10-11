@@ -12,10 +12,12 @@ def get_user(user_id):
     db = firestore.client()
     user_query = db.collection('botuser').where('id', '==', user_id).limit(1)
     for user_info in user_query.stream():
-        if user_info is not None and 'language' not in user_info.to_dict().keys():
-            doc = db.collection('botuser').document(user_id)
-            doc.set({'language': 'Korean'}, merge=True)
-            return user_info.to_dict()
+        if user_info is not None:
+            if 'language' not in user_info.to_dict().keys():
+                doc = db.collection('botuser').document(user_id)
+                doc.set({'language': 'Korean'}, merge=True)
+            else:
+                return user_info.to_dict()
     return None
 
 
