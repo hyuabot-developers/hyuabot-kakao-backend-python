@@ -5,21 +5,72 @@ from fastapi.responses import JSONResponse
 # Internal Module
 from kakao.common.models import KakaoRequest, ShuttleRequest, FoodRequest, ReadingRoomRequest, ShuttleStopRequest
 from kakao.common.user import *
-from kakao.answer_shuttle import make_answer_shuttle_depart_info  # To get departure info
-from kakao.answer_shuttle import make_answer_shuttle_stop_detail  # To get shuttle stop info
-from kakao.answer_library import make_answer_reading_room_info  # To get seat info in reading room
-from kakao.answer_food import make_answer_food_menu  # To get food menu
+from kakao.answer.answer_shuttle import make_answer_shuttle_depart_info  # To get departure info
+from kakao.answer.answer_shuttle import make_answer_shuttle_stop_detail  # To get shuttle stop info
+from kakao.answer.answer_shuttle import make_answer_shuttle_main  # To get shuttle stop info
+from kakao.answer.answer_library import make_answer_reading_room_info  # To get seat info in reading room
+from kakao.answer.answer_food import make_answer_food_menu  # To get food menu
+from kakao.answer.answer_subway import make_answer_subway
+from kakao.answer.answer_common import answer_transport_main
 from kakao.common.sender import *
 
 kakao_url = APIRouter()
 
 
 # Route urls
+@kakao_url.post('/transport')
+async def transport_main(request: KakaoRequest):
+    """셔틀 정류장을 사용자로부터 입력받아 행선지별 도착 정보를 최대 두개씩 반환합니다."""
+    user_id, user_answer = request.userRequest.user.id, request.userRequest.utterance
+    user_info = get_user(user_id)
+    if not user_info:
+        response = find_is_new_user(user_id, user_answer)
+        return JSONResponse(response)
+    result_json = answer_transport_main(campus=user_info['campus'], language=user_info['language'])
+    return JSONResponse(result_json)
+
+
 @kakao_url.post('/shuttle')
 async def get_shuttle_departure(request: ShuttleRequest):
     """셔틀 정류장을 사용자로부터 입력받아 행선지별 도착 정보를 최대 두개씩 반환합니다."""
+    user_id, user_answer = request.userRequest.user.id, request.userRequest.utterance
+    user_info = get_user(user_id)
+    if not user_info:
+        response = find_is_new_user(user_id, user_answer)
+        return JSONResponse(response)
+    result_json = make_answer_shuttle_depart_info(user_answer, language=user_info['language'])
+    return JSONResponse(result_json)
+
+
+@kakao_url.post('/shuttle/main')
+async def get_shuttle_main(request: KakaoRequest):
+    """셔틀 메인 메뉴를 보여줍니다.."""
+    user_id, user_answer = request.userRequest.user.id, request.userRequest.utterance
+    user_info = get_user(user_id)
+    if not user_info:
+        response = find_is_new_user(user_id, user_answer)
+        return JSONResponse(response)
+    result_json = make_answer_shuttle_main(language=user_info['language'])
+    return JSONResponse(result_json)
+
+
+@kakao_url.post('/shuttle/detail')
+async def get_shuttle_stop_info(request: ShuttleStopRequest):
+    """셔틀 정류장을 사용자로부터 입력받아 정류장 위치 및 첫막차 정보를 반환합니다."""
     _, user_answer = request.userRequest.user.id, request.userRequest.utterance
-    result_json = make_answer_shuttle_depart_info(user_answer)
+    result_json = make_answer_shuttle_stop_detail(user_answer)
+    return JSONResponse(result_json)
+
+
+@kakao_url.post('/subway')
+async def get_subway_departure(request: KakaoRequest):
+    """셔틀 정류장을 사용자로부터 입력받아 행선지별 도착 정보를 최대 두개씩 반환합니다."""
+    user_id, user_answer = request.userRequest.user.id, request.userRequest.utterance
+    user_info = get_user(user_id)
+    if not user_info:
+        response = find_is_new_user(user_id, user_answer)
+        return JSONResponse(response)
+    result_json = make_answer_subway(campus=user_info['campus'], language=user_info['language'])
     return JSONResponse(result_json)
 
 
@@ -34,7 +85,10 @@ async def get_food_menu(request: FoodRequest):
     if '의 식단입니다' in answer:
         result_json = make_answer_food_menu(user_info['campus'], answer.split('의 식단입니다.')[0].strip())
     else:
-        response = insert_text('원하는 식당을 선택해주세요.')
+        if user_info['language'] == 'Korean':
+            response = insert_text('원하는 식당을 선택해주세요.')
+        else:
+            response = insert_text('Unfortunately, it doesn\'t support english.')
         if user_info['campus']:
             rest_list = ['학생식당', '신학생식당', '교직원식당', '신교직원식당', '제1생활관식당', '제2생활관식당', '사랑방', '행원파크']
         else:
@@ -69,20 +123,29 @@ async def update_campus(request: KakaoRequest):
     if user_info:
         if user_info['campus']:
             update_user_campus(user_id, 0)
-            response = insert_text('ERICA 캠퍼스로 변경되었습니다.')
+            if user_info['language'] == 'Korean':
+                response = insert_text('ERICA 캠퍼스로 변경되었습니다.')
+            else:
+                response = insert_text('Change to ERICA Campus')
         else:
             update_user_campus(user_id, 1)
-            response = insert_text('서울 캠퍼스로 변경되었습니다.')
+            if user_info['language'] == 'Korean':
+                response = insert_text('서울캠퍼스로 변경되었습니다.')
+            else:
+                response = insert_text('Change to Seoul Campus')
     else:
         response = find_is_new_user(user_id, answer)
     return JSONResponse(response)
 
 
 @kakao_url.post('/update/language')
-async def update_campus(request: KakaoRequest):
+async def update_language(request: KakaoRequest):
     """사용자 ID를 기반으로 한국어 ↔ English 상호 전환이 가능하게 합니다."""
     user_id, answer = request.userRequest.user.id, request.userRequest.utterance
     user_info = get_user(user_id)
+    if not user_info:
+        response = find_is_new_user(user_id, answer)
+        return JSONResponse(response)
     if user_info:
         if user_info['language'] == 'Korean':
             update_user_language(user_id, 'English')
@@ -93,11 +156,3 @@ async def update_campus(request: KakaoRequest):
     else:
         response = find_is_new_user(user_id, answer)
     return JSONResponse(response)
-
-
-@kakao_url.post('/shuttle/detail')
-async def get_shuttle_stop_info(request: ShuttleStopRequest):
-    """셔틀 정류장을 사용자로부터 입력받아 정류장 위치 및 첫막차 정보를 반환합니다."""
-    _, user_answer = request.userRequest.user.id, request.userRequest.utterance
-    result_json = make_answer_shuttle_stop_detail(user_answer)
-    return JSONResponse(result_json)

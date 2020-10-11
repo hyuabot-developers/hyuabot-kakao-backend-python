@@ -10,11 +10,13 @@ def get_user(user_id):
         cred = get_cred()
         initialize_app(cred)
     db = firestore.client()
-    user_query = db.collection('botuser').document(user_id)
-    user_info = user_query.get().to_dict()
-    if 'language' not in user_info.keys():
-        user_query.set({'language': 'Korean'}, merge=True)
-    return user_query.get().to_dict()
+    user_query = db.collection('botuser').where('id', '==', user_id).limit(1)
+    for user_info in user_query.stream():
+        if user_info is not None and 'language' not in user_info.to_dict().keys():
+            doc = db.collection('botuser').document(user_id)
+            doc.set({'language': 'Korean'}, merge=True)
+            return user_info.to_dict()
+    return None
 
 
 # 봇 사용시 사용자 정보 생성
