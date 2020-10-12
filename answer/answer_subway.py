@@ -23,7 +23,7 @@ def make_answer_subway(campus, language="Korean") -> dict:
         '을지로입구': 'Euljiro 1(il)-ga', '당고개': 'Danggogae', '노원': 'Nowon', '한성대입구': 'Hansung Univ', '사당': 'Sadang',
         '왕십리':'Wangsimni', '죽전': 'Jukjeon', '신인천': 'Incheon', '상왕십리': 'Sangwangsimni', '신당': 'Sindang',
         '동대문역사문화공원':'DDP', '을지로 4가': 'Euljiro 4(sa)-ga', '을지로 3가': 'Euljiro 3(sam)-ga', '뚝섬': 'Ddukseom',
-        '건대입구': 'Geonguk Univ','구의': 'Guui', '강변': 'Gangbyeon', '잠실나루': 'Jamsilnaru', '잠실': 'Jamsil'
+        '건대입구': 'Geonguk Univ','구의': 'Guui', '강변': 'Gangbyeon', '잠실나루': 'Jamsilnaru', '잠실': 'Jamsil', '청량리': 'Cheongryangri'
     }
 
     status_eng = {'진입': 'Around at', '도착': 'Arrived at', '출발': 'Departed from', '전역출발': 'Departed from previous stn',
@@ -84,7 +84,6 @@ def make_answer_subway(campus, language="Korean") -> dict:
             result += '\n수인선(한대앞역)\n'
             if line_sub['up']:
                 end_station, arrival_time = line_sub['up'][0]['endStn'], line_sub['up'][0]['time']
-                print(arrival_time)
                 result += f'{end_station}행 {arrival_time.strftime("%H시 %M분")} 도착\n'
             else:
                 result += '인천 방면 열차가 없습니다\n'

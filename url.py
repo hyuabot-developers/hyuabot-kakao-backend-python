@@ -7,10 +7,11 @@ from kakao.common.models import KakaoRequest, ShuttleRequest, FoodRequest, Readi
 from kakao.common.user import *
 from kakao.answer.answer_shuttle import make_answer_shuttle_depart_info  # To get departure info
 from kakao.answer.answer_shuttle import make_answer_shuttle_stop_detail  # To get shuttle stop info
-from kakao.answer.answer_shuttle import make_answer_shuttle_main  # To get shuttle stop info
+from kakao.answer.answer_shuttle import make_answer_shuttle_main  # To get shuttle main page
 from kakao.answer.answer_library import make_answer_reading_room_info  # To get seat info in reading room
 from kakao.answer.answer_food import make_answer_food_menu  # To get food menu
 from kakao.answer.answer_subway import make_answer_subway
+from kakao.answer.answer_bus import make_answer_bus_info
 from kakao.answer.answer_common import answer_transport_main
 from kakao.common.sender import *
 
@@ -64,13 +65,25 @@ async def get_shuttle_stop_info(request: ShuttleStopRequest):
 
 @kakao_url.post('/subway')
 async def get_subway_departure(request: KakaoRequest):
-    """셔틀 정류장을 사용자로부터 입력받아 행선지별 도착 정보를 최대 두개씩 반환합니다."""
+    """전철역의 행선지별 도착 정보를 최대 한개씩 반환합니다."""
     user_id, user_answer = request.userRequest.user.id, request.userRequest.utterance
     user_info = get_user(user_id)
     if not user_info:
         response = find_is_new_user(user_id, user_answer)
         return JSONResponse(response)
     result_json = make_answer_subway(campus=user_info['campus'], language=user_info['language'])
+    return JSONResponse(result_json)
+
+
+@kakao_url.post('/bus')
+async def get_bus_departure(request: KakaoRequest):
+    """버스 정류장의 행선지별 도착 정보를 최대 두개씩 반환합니다."""
+    user_id, user_answer = request.userRequest.user.id, request.userRequest.utterance
+    user_info = get_user(user_id)
+    if not user_info:
+        response = find_is_new_user(user_id, user_answer)
+        return JSONResponse(response)
+    result_json = make_answer_bus_info(language=user_info['language'])
     return JSONResponse(result_json)
 
 
