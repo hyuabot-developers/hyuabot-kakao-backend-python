@@ -34,7 +34,7 @@ def make_answer_food_menu(campus, user_answer=''):
 
     is_working = False
     for key in recipe.keys():
-        if key in ['조식', '중식', '석식']:
+        if key in ['조식', '중식', '석식', '중식/석식', '분식']:
             is_working = True
             break
 
@@ -42,7 +42,22 @@ def make_answer_food_menu(campus, user_answer=''):
         string += '오늘 식당은 운영하지 않습니다.'
         response = insert_text(string.strip())
         return response
-
+    if '중식/석식' in recipe.keys():
+        menus = recipe['중식/석식']
+        for x in menus:
+            string += x["menu"] + "\n"
+            string += x["price"] + "원\n"
+            string += '\n'
+        if string[-1] == '\n':
+            string = string[:-1]
+    if '분식' in recipe.keys():
+        menus = recipe['분식']
+        for x in menus:
+            string += x["menu"] + "\n"
+            string += x["price"] + "원\n"
+            string += '\n'
+        if string[-1] == '\n':
+            string = string[:-1]   
     if now.hour < 10:
         if "조식" in recipe.keys():
             string += "조식\n"
