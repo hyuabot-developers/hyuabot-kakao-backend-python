@@ -28,13 +28,13 @@ def make_answer_subway(campus, language="Korean") -> dict:
 
     status_eng = {'진입': 'Around at', '도착': 'Arrived at', '출발': 'Departed from', '전역출발': 'Departed from previous stn',
                   '전역진입': 'Around at prev stn', '전역도착': 'Arrived at prev stn', '운행중': 'Moving to'}
-
-    if not line_main:
+    if line_main:
         if campus:
             if language == "Korean":
                 result = '2호선(한양대역/내선)\n'
                 if line_main['up']:
-                    end_station, pos, remained_time, status = line_main['up'][0]
+                    arrival_item = line_main['up'][0]
+                    end_station, pos, remained_time, status = list(arrival_item.values())
                     if '전역' in status:
                         result += f'{end_station}행 {status} {remained_time//60}분 후 도착\n'
                     else:
@@ -43,7 +43,8 @@ def make_answer_subway(campus, language="Korean") -> dict:
                     result += '내선 방면 열차가 없습니다\n\n'
                 result += '\n2호선(한양대역/외선)\n'
                 if line_main['down']:
-                    end_station, pos, remained_time, status = line_main['down'][0]
+                    arrival_item = line_main['down'][0]
+                    end_station, pos, remained_time, status = list(arrival_item.values())
                     if '전역' in status:
                         result += f'{end_station}행 {status} {remained_time//60}분 후 도착\n'
                     else:
@@ -53,13 +54,15 @@ def make_answer_subway(campus, language="Korean") -> dict:
             else:
                 result = 'Line no.2(Inner)\n'
                 if line_main['up']:
-                    end_station, pos, remained_time, status = line_main['up'][0]
+                    arrival_item = line_main['up'][0]
+                    end_station, pos, remained_time, status = list(arrival_item.values())
                     result += f'→ {station_eng[end_station]} {int(remained_time // 60)} mins left\n'
                 else:
                     result += 'There is no more train for inner line\n'
                 result += '\nLine no.2(Outer)\n'
                 if line_main['down']:
-                    end_station, pos, remained_time, status = line_main['down'][0]
+                    arrival_item = line_main['down'][0]
+                    end_station, pos, remained_time, status = list(arrival_item.values())
                     result += f'→ {station_eng[end_station]} {int(remained_time // 60)} mins left\n'
                 else:
                     result += 'There is no more train for outer line\n'
@@ -67,7 +70,8 @@ def make_answer_subway(campus, language="Korean") -> dict:
             if language == "Korean":
                 result = '4호선(한대앞역)\n'
                 if line_main['up']:
-                    end_station, pos, remained_time, status = line_main['up'][0]
+                    arrival_item = line_main['up'][0]
+                    end_station, pos, remained_time, status = list(arrival_item.values())
                     if '전역' in status:
                         result += f'{end_station}행 {status} {int(remained_time)}분 후 도착\n'
                     else:
@@ -75,7 +79,8 @@ def make_answer_subway(campus, language="Korean") -> dict:
                 else:
                     result += '당고개 방면 열차가 없습니다\n'
                 if line_main['down']:
-                    end_station, pos, remained_time, status = line_main['down'][0]
+                    arrival_item = line_main['down'][0]
+                    end_station, pos, remained_time, status = list(arrival_item.values())
                     if '전역' in status:
                         result += f'{end_station}행 {status} {int(remained_time)}분 후 도착\n'
                     else:
