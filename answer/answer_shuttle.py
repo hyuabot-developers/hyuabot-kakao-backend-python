@@ -242,5 +242,5 @@ def make_answer_shuttle_stop_detail(user_answer, language='Korean'):
         response = insert_button(response, '👀 로드뷰로 보기', stop_view[stop_key])
     else:
         response = insert_card(f'About {stop_name}', result_str.strip())
-        response = insert_button(response, '👀 Watch with road view', stop_view[stop_key])
+        response = insert_button(response, '👀 Road View', stop_view[stop_key])
     return response

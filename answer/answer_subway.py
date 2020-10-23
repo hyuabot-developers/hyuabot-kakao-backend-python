@@ -29,93 +29,95 @@ def make_answer_subway(campus, language="Korean") -> dict:
     status_eng = {'진입': 'Around at', '도착': 'Arrived at', '출발': 'Departed from', '전역출발': 'Departed from previous stn',
                   '전역진입': 'Around at prev stn', '전역도착': 'Arrived at prev stn', '운행중': 'Moving to'}
 
-    if campus:
-        if language == "Korean":
-            result = '2호선(한양대역/내선)\n'
-            if line_main['up']:
-                end_station, pos, remained_time, status = line_main['up'][0]
-                if '전역' in status:
-                    result += f'{end_station}행 {status} {remained_time//60}분 후 도착\n'
+    if not line_main:
+        if campus:
+            if language == "Korean":
+                result = '2호선(한양대역/내선)\n'
+                if line_main['up']:
+                    end_station, pos, remained_time, status = line_main['up'][0]
+                    if '전역' in status:
+                        result += f'{end_station}행 {status} {remained_time//60}분 후 도착\n'
+                    else:
+                        result += f'{end_station}행 {pos} {remained_time//60}분 후 도착\n'
                 else:
-                    result += f'{end_station}행 {pos} {remained_time//60}분 후 도착\n'
-            else:
-                result += '내선 방면 열차가 없습니다\n\n'
-            result += '\n2호선(한양대역/외선)\n'
-            if line_main['down']:
-                end_station, pos, remained_time, status = line_main['down'][0]
-                if '전역' in status:
-                    result += f'{end_station}행 {status} {remained_time//60}분 후 도착\n'
+                    result += '내선 방면 열차가 없습니다\n\n'
+                result += '\n2호선(한양대역/외선)\n'
+                if line_main['down']:
+                    end_station, pos, remained_time, status = line_main['down'][0]
+                    if '전역' in status:
+                        result += f'{end_station}행 {status} {remained_time//60}분 후 도착\n'
+                    else:
+                        result += f'{end_station}행 {pos} {remained_time//60}분 후 도착\n'
                 else:
-                    result += f'{end_station}행 {pos} {remained_time//60}분 후 도착\n'
+                    result += '외선 방면 열차가 없습니다\n'
             else:
-                result += '외선 방면 열차가 없습니다\n'
+                result = 'Line no.2(Inner)\n'
+                if line_main['up']:
+                    end_station, pos, remained_time, status = line_main['up'][0]
+                    result += f'→ {station_eng[end_station]} {int(remained_time // 60)} mins left\n'
+                else:
+                    result += 'There is no more train for inner line\n'
+                result += '\nLine no.2(Outer)\n'
+                if line_main['down']:
+                    end_station, pos, remained_time, status = line_main['down'][0]
+                    result += f'→ {station_eng[end_station]} {int(remained_time // 60)} mins left\n'
+                else:
+                    result += 'There is no more train for outer line\n'
         else:
-            result = 'Line no.2(Inner)\n'
-            if line_main['up']:
-                end_station, pos, remained_time, status = line_main['up'][0]
-                result += f'→ {station_eng[end_station]} {int(remained_time // 60)} mins left\n'
+            if language == "Korean":
+                result = '4호선(한대앞역)\n'
+                if line_main['up']:
+                    end_station, pos, remained_time, status = line_main['up'][0]
+                    if '전역' in status:
+                        result += f'{end_station}행 {status} {int(remained_time)}분 후 도착\n'
+                    else:
+                        result += f'{end_station}행 {pos} {int(remained_time)}분 후 도착\n'
+                else:
+                    result += '당고개 방면 열차가 없습니다\n'
+                if line_main['down']:
+                    end_station, pos, remained_time, status = line_main['down'][0]
+                    if '전역' in status:
+                        result += f'{end_station}행 {status} {int(remained_time)}분 후 도착\n'
+                    else:
+                        result += f'{end_station}행 {pos} {int(remained_time)}분 후 도착\n\n'
+                else:
+                    result += '오이도 방면 열차가 없습니다\n'
+                result += '\n수인선(한대앞역)\n'
+                if line_sub['up']:
+                    end_station, arrival_time = line_sub['up'][0]['endStn'], line_sub['up'][0]['time']
+                    result += f'{end_station}행 {arrival_time.strftime("%H시 %M분")} 도착\n'
+                else:
+                    result += '인천 방면 열차가 없습니다\n'
+                if line_sub['down']:
+                    end_station, arrival_time = line_sub['down'][0]['endStn'], line_sub['down'][0]['time']
+                    result += f'{end_station}행 {arrival_time.strftime("%H시 %M분")} 도착\n'
+                else:
+                    result += '왕십리/수원 방면 열차가 없습니다\n'
             else:
-                result += 'There is no more train for inner line\n'
-            result += '\nLine no.2(Outer)\n'
-            if line_main['down']:
-                end_station, pos, remained_time, status = line_main['down'][0]
-                result += f'→ {station_eng[end_station]} {int(remained_time // 60)} mins left\n'
-            else:
-                result += 'There is no more train for outer line\n'
+                result = 'Line No.4\n'
+                if line_main['up']:
+                    end_station, pos, remained_time, status = line_main['up'][0]
+                    result += f'→ {station_eng[end_station]} {int(remained_time)}mins left\n'
+                else:
+                    result += 'There is no more train bound for Danggogae(Seoul)\n'
+                if line_main['down']:
+                    end_station, pos, remained_time, status = line_main['down'][0]
+                    result += f'→ {station_eng[end_station]} {int(remained_time)} mins left\n'
+                else:
+                    result += 'There is no more train bound for Oido\n'
+                result += '\nSuinbundang Line\n'
+                if line_sub['up']:
+                    end_station, arrival_time = line_sub['up'][0]['endStn'], line_sub['up'][0]['time']
+                    result += f'→ {station_eng[end_station]} Arriving at {arrival_time.strftime("%H:%M")}\n'
+                else:
+                    result += 'There is no more train bound for Incheon\n'
+                if line_sub['down']:
+                    end_station, arrival_time = line_sub['down'][0]['endStn'], line_sub['down'][0]['time']
+                    result += f'→ {station_eng[end_station]} Arriving at {arrival_time.strftime("%H:%M")}\n'
+                else:
+                    result += 'There is no more train bound for Wangsimni/Suwon\n'
     else:
-        if language == "Korean":
-            result = '4호선(한대앞역)\n'
-            if line_main['up']:
-                end_station, pos, remained_time, status = line_main['up'][0]
-                if '전역' in status:
-                    result += f'{end_station}행 {status} {int(remained_time)}분 후 도착\n'
-                else:
-                    result += f'{end_station}행 {pos} {int(remained_time)}분 후 도착\n'
-            else:
-                result += '당고개 방면 열차가 없습니다\n'
-            if line_main['down']:
-                end_station, pos, remained_time, status = line_main['down'][0]
-                if '전역' in status:
-                    result += f'{end_station}행 {status} {int(remained_time)}분 후 도착\n'
-                else:
-                    result += f'{end_station}행 {pos} {int(remained_time)}분 후 도착\n\n'
-            else:
-                result += '오이도 방면 열차가 없습니다\n'
-            result += '\n수인선(한대앞역)\n'
-            if line_sub['up']:
-                end_station, arrival_time = line_sub['up'][0]['endStn'], line_sub['up'][0]['time']
-                result += f'{end_station}행 {arrival_time.strftime("%H시 %M분")} 도착\n'
-            else:
-                result += '인천 방면 열차가 없습니다\n'
-            if line_sub['down']:
-                end_station, arrival_time = line_sub['down'][0]['endStn'], line_sub['down'][0]['time']
-                result += f'{end_station}행 {arrival_time.strftime("%H시 %M분")} 도착\n'
-            else:
-                result += '왕십리/수원 방면 열차가 없습니다\n'
-        else:
-            result = 'Line No.4\n'
-            if line_main['up']:
-                end_station, pos, remained_time, status = line_main['up'][0]
-                result += f'→ {station_eng[end_station]} {int(remained_time)}mins left\n'
-            else:
-                result += 'There is no more train bound for Danggogae(Seoul)\n'
-            if line_main['down']:
-                end_station, pos, remained_time, status = line_main['down'][0]
-                result += f'→ {station_eng[end_station]} {int(remained_time)} mins left\n'
-            else:
-                result += 'There is no more train bound for Oido\n'
-            result += '\nSuinbundang Line\n'
-            if line_sub['up']:
-                end_station, arrival_time = line_sub['up'][0]['endStn'], line_sub['up'][0]['time']
-                result += f'→ {station_eng[end_station]} Arriving at {arrival_time.strftime("%H:%M")}\n'
-            else:
-                result += 'There is no more train bound for Incheon\n'
-            if line_sub['down']:
-                end_station, arrival_time = line_sub['down'][0]['endStn'], line_sub['down'][0]['time']
-                result += f'→ {station_eng[end_station]} Arriving at {arrival_time.strftime("%H:%M")}\n'
-            else:
-                result += 'There is no more train bound for Wangsimni/Suwon\n'
-
+        result = "지하철 실시간 API 서버로부터 잘못된 응답을 수신하였습니다.\n잠시 후 다시 시도해주십시오."
     response = insert_text(result.strip())
 
     return response

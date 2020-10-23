@@ -58,8 +58,12 @@ async def get_shuttle_main(request: KakaoRequest):
 @kakao_url.post('/shuttle/detail')
 async def get_shuttle_stop_info(request: ShuttleStopRequest):
     """셔틀 정류장을 사용자로부터 입력받아 정류장 위치 및 첫막차 정보를 반환합니다."""
-    _, user_answer = request.userRequest.user.id, request.userRequest.utterance
-    result_json = make_answer_shuttle_stop_detail(user_answer)
+    user_id, user_answer = request.userRequest.user.id, request.userRequest.utterance
+    user_info = get_user(user_id)
+    if not user_info:
+        response = find_is_new_user(user_id, user_answer)
+        return JSONResponse(response)
+    result_json = make_answer_shuttle_stop_detail(user_answer, user_info['language'])
     return JSONResponse(result_json)
 
 
