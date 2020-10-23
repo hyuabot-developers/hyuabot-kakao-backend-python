@@ -42,49 +42,55 @@ def make_answer_food_menu(campus, user_answer=''):
         string += '오늘 식당은 운영하지 않습니다.'
         response = insert_text(string.strip())
         return response
+
+    both_lunch_dinner = False
     if '중식/석식' in recipe.keys():
         menus = recipe['중식/석식']
         for x in menus:
             string += x["menu"] + "\n"
-            string += x["price"] + "원\n"
+            string += x["price"] + "\n"
             string += '\n'
         if string[-1] == '\n':
             string = string[:-1]
+        both_lunch_dinner = True
+
     if '분식' in recipe.keys():
         menus = recipe['분식']
         for x in menus:
             string += x["menu"] + "\n"
-            string += x["price"] + "원\n"
+            string += x["price"] + "\n"
             string += '\n'
         if string[-1] == '\n':
-            string = string[:-1]   
-    if now.hour < 10:
-        if "조식" in recipe.keys():
-            string += "조식\n"
-            menus = recipe["조식"]
-        else:
+            string = string[:-1]
+
+    if not both_lunch_dinner:
+        if now.hour < 10:
+            if "조식" in recipe.keys():
+                string += "조식\n"
+                menus = recipe["조식"]
+            else:
+                string += "중식\n"
+                menus = recipe["중식"]
+        elif now.hour < 14:
             string += "중식\n"
             menus = recipe["중식"]
-    elif now.hour < 14:
-        string += "중식\n"
-        menus = recipe["중식"]
-    elif now.hour < 19:
-        if "석식" in recipe.keys():
-            string += "석식\n"
-            menus = recipe["석식"]
+        elif now.hour < 19:
+            if "석식" in recipe.keys():
+                string += "석식\n"
+                menus = recipe["석식"]
+            else:
+                string += "중식\n"
+                menus = recipe["중식"]
         else:
-            string += "중식\n"
-            menus = recipe["중식"]
-    else:
-        menus = [{"info": "미운영 시간입니다."}]
-        string = "식당 운영시간이 아닙니다."
+            menus = [{"info": "미운영 시간입니다."}]
+            string = "식당 운영시간이 아닙니다."
     # 식단이 없을 때
     if not menus:
         string = '식단이 제공되지 않습니다'
     if "info" not in menus[0].keys():
         for x in menus:
             string += x["menu"] + "\n"
-            string += x["price"] + "원\n"
+            string += x["price"] + "\n"
             string += '\n'
         if string[-1] == '\n':
             string = string[:-1]
