@@ -1,4 +1,5 @@
 from firebase_admin import _apps, initialize_app, firestore
+from google.cloud.exceptions import NotFound
 
 from firebase.firebase_init import get_cred
 from kakao.common.sender import *
@@ -10,15 +11,17 @@ def get_user(user_id):
         cred = get_cred()
         initialize_app(cred)
     db = firestore.client()
-    user_query = db.collection('botuser').where('id', '==', user_id).limit(1)
-    for user_info in user_query.stream():
-        if user_info is not None:
-            if 'language' not in user_info.to_dict().keys():
-                doc = db.collection('botuser').document(user_id)
-                doc.set({'language': 'Korean'}, merge=True)
-            else:
-                return user_info.to_dict()
-    return None
+    user_query = db.collection('botuser').document(user_id)
+    try:
+        doc = user_query.get()
+        if not doc.to_dict():
+            return None
+        if 'language' not in doc.to_dict().keys():
+            user_query.set({'language': 'Korean'}, merge=True)
+        else:
+            return doc.to_dict()
+    except NotFound:
+        return None
 
 
 # 봇 사용시 사용자 정보 생성
@@ -28,7 +31,7 @@ def create_user(user_key, campus):
         initialize_app(cred)
     db = firestore.client()
     user = db.collection('botuser').document(user_key)
-    user.set({'id': user_key, 'campus': campus, 'language': 'Korean'})
+    user.set({'campus': campus, 'language': 'Korean'})
 
 
 # 봇 사용자 캠퍼스 정보 변경
