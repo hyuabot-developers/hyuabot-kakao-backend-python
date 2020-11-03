@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
 # Internal Module
+from food.menu import update_recipe
 from kakao.common.models import KakaoRequest, ShuttleRequest, FoodRequest, ReadingRoomRequest, ShuttleStopRequest
 from kakao.common.user import *
 from kakao.answer.answer_shuttle import make_answer_shuttle_depart_info  # To get departure info
@@ -173,3 +174,8 @@ async def update_language(request: KakaoRequest):
     else:
         response = find_is_new_user(user_id, answer)
     return JSONResponse(response)
+
+@kakao_url.get('/food')
+async def update_menu():
+    update_recipe()
+    return 'complete'
