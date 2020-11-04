@@ -151,7 +151,7 @@ def make_answer_shuttle_depart_info(user_answer, language='Korean') -> str:
         else:
             result = '잘못된 정류장 정보입니다.' if language == 'Korean' else 'Error!'
 
-        result += "\n도착 정보는 시간표 기반으로 제공함으로 미리 정류장에서 기다리는 것을 권장합니다.\n" if language == "korean" else "\nPlz be at bus stop earlier than time\n"
+        result += "\n도착 정보는 시간표 기반으로 제공함으로 미리 정류장에서 기다리는 것을 권장합니다.\n" if language == "Korean" else "\nPlz be at bus stop earlier than time\n"
         server_answer = insert_text(result.strip())
 
     # 하단 버튼 추가
