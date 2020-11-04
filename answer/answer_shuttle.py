@@ -38,9 +38,9 @@ def make_answer_shuttle_depart_info(user_answer, language='Korean') -> str:
         if language == 'Korean':
             emoji = {"셔틀콕": '🏫 ', "한대앞역": '🚆 ', "예술인A": '🚍 ', "기숙사": '🏘️ ', "셔틀콕 건너편": '🏫 '}
         else:
-            emoji = {"Shuttlecock": '🏫 ', "Station": '🚆 ', "Terminal": '🚍 ', "Dormitory": '🏘️ ', 'Shuttlecock(Oppo)': '🏫 '}
+            emoji = {"Shuttlecock": '🏫 ', "Station": '🚆 ', "Terminal": '🚍 ', "Dormitory": '🏘️ ',
+                     'Shuttlecock(Oppo)': '🏫 '}
         block_id = '5cc3dc8ee82127558b7e6eba'
-
         bus_to_come_dh, bus_to_come_dy, bus_to_come_c, now = depart_info
         # 도착정보를 응답으로 변환
         if dest_stop == '기숙사' or dest_stop == 'Dormitory':
@@ -130,8 +130,18 @@ def make_answer_shuttle_depart_info(user_answer, language='Korean') -> str:
                 result += '도착 예정인 버스가 없습니다.\n' if language == 'Korean' else 'There is no more bus to depart\n'
         elif dest_stop == '셔틀콕 건너편' or dest_stop == 'Shuttlecock(Oppo)':
             result = '셔틀콕 건너편→기숙사\n' if language == 'Korean' else 'Other side of Shuttlecock→Dorm(Cycle)\n'
-            if bus_to_come_c:
-                for depart_time in bus_to_come_c:
+            shuttle_list = bus_to_come_dh
+            shuttle_list.extend(bus_to_come_dy)
+            shuttle_list.extend(bus_to_come_c)
+            shuttle_list = sorted(shuttle_list, key=lambda x: x)
+            if shuttle_list:
+                depart_time = shuttle_list[0]
+                if language == 'Korean':
+                    result += f'{depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
+                else:
+                    result += f'Depart at {depart_time.strftime("%H:%M")} ({(depart_time - now).seconds // 60}mins later)\n'
+                if len(shuttle_list) > 1:
+                    depart_time = shuttle_list[1]
                     if language == 'Korean':
                         result += f'{depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
                     else:
@@ -140,6 +150,8 @@ def make_answer_shuttle_depart_info(user_answer, language='Korean') -> str:
                 result += '도착 예정인 버스가 없습니다.\n' if language == 'Korean' else 'There is no more bus to depart\n'
         else:
             result = '잘못된 정류장 정보입니다.' if language == 'Korean' else 'Error!'
+
+        result += "\n도착 정보는 시간표 기반으로 제공함으로 미리 정류장에서 기다리는 것을 권장합니다.\n" if language == "korean" else "\nPlz be at bus stop earlier than time\n"
         server_answer = insert_text(result.strip())
 
     # 하단 버튼 추가
@@ -177,7 +189,8 @@ def make_answer_shuttle_stop_detail(user_answer, language='Korean'):
     if language == 'Korean':
         stop_list = {"셔틀콕": "shuttle", "셔틀콕 건너편": "shuttle", "한대앞역": "station", "예술인A": "terminal", "기숙사": "dormitory"}
     else:
-        stop_list = {"Shuttlecock": "shuttle", "Shuttlecock(Oppo)": "shuttle", "Station": "station", "Terminal": "terminal", "Dormitory": "dormitory"}
+        stop_list = {"Shuttlecock": "shuttle", "Shuttlecock(Oppo)": "shuttle", "Station": "station",
+                     "Terminal": "terminal", "Dormitory": "dormitory"}
     stop_view = {"shuttle": "http://kko.to/Kf-ZqboYH", "station": "http://kko.to/IyyXgzPDo",
                  "dormitory": "http://kko.to/vClEubBDj", "terminal": "http://kko.to/guG2uboYB"}
 
