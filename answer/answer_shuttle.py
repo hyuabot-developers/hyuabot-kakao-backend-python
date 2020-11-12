@@ -191,8 +191,8 @@ def make_answer_shuttle_stop_detail(user_answer, language='Korean'):
     else:
         stop_list = {"Shuttlecock": "shuttle", "Shuttlecock(Oppo)": "shuttle", "Station": "station",
                      "Terminal": "terminal", "Dormitory": "dormitory"}
-    stop_view = {"shuttle": "http://kko.to/Kf-ZqboYH", "station": "http://kko.to/IyyXgzPDo",
-                 "dormitory": "http://kko.to/vClEubBDj", "terminal": "http://kko.to/guG2uboYB"}
+    stop_view = {"shuttle": "http://kko.to/TyWyjU3Yp", "station": "http://kko.to/c93C0UFYj",
+                 "dormitory": "http://kko.to/R-l1jU3DT", "terminal": "http://kko.to/7mzoYUFY0"}
 
     if language == 'Korean':
         stop_name = user_answer.split('정류장 정보입니다')[0].strip()
