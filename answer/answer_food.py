@@ -29,7 +29,7 @@ def make_answer_food_menu(campus, user_answer=''):
         }
 
     cafeteria = cafeterias[user_answer]
-    recipe = get_recipe(cafeteria, campus=campus)
+    recipe = get_recipe(cafeteria)
     string = f'{recipe["time"].strip()}\n'
 
     is_working = False

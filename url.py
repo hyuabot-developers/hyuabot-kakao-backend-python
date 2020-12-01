@@ -175,6 +175,7 @@ async def update_language(request: KakaoRequest):
         response = find_is_new_user(user_id, answer)
     return JSONResponse(response)
 
+
 @kakao_url.get('/food')
 async def update_menu():
     update_recipe()
