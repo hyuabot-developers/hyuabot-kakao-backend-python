@@ -25,7 +25,7 @@ def make_answer_food_menu(campus, user_answer=''):
             "창의인재원식당": CafeteriaERICA.dorm_erica,
             "교직원식당": CafeteriaERICA.teacher_erica,
             "창업보육센터": CafeteriaERICA.changbo_erica,
-            "푸드코트": CafeteriaERICA.foodcoart_erica
+            "푸드코트": CafeteriaERICA.food_court_erica
         }
 
     cafeteria = cafeterias[user_answer]
