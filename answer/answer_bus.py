@@ -1,5 +1,7 @@
 from kakao.common.sender import *
 from transport.bus.get_arrival_info import get_bus_info, get_bus_timetable
+from transport.shuttle.date import which_weekday
+
 import datetime
 
 
@@ -7,7 +9,7 @@ def make_answer_bus_info():
     realtime_info = get_bus_info()
     now = datetime.datetime.now()
     if not (realtime_info['3102'] and realtime_info['10-1']):
-        timetable = get_bus_timetable(weekdays=int(now.weekday()))
+        timetable = get_bus_timetable(weekdays=which_weekday())
     string = ""
     string += '3102번(한양대게스트하우스)\n'
     if realtime_info['3102']:
