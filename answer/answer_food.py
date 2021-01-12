@@ -6,27 +6,15 @@ from kakao.common.sender import *
 from datetime import datetime
 
 
-def make_answer_food_menu(campus, user_answer=''):
+def make_answer_food_menu(user_answer=''):
     now = datetime.now(tz=korea_timezone)
-    if campus:
-        cafeterias = {
-            "학생식당": CafeteriaSeoul.student_seoul_1,
-            "교직원식당": CafeteriaSeoul.teacher_seoul_1,
-            "신학생식당": CafeteriaSeoul.student_seoul_2,
-            "신교직원식당": CafeteriaSeoul.teacher_seoul_2,
-            "제1생활관식당": CafeteriaSeoul.dorm_seoul_1,
-            "제2생활관식당": CafeteriaSeoul.dorm_seoul_2,
-            "사랑방": CafeteriaSeoul.sarang_seoul,
-            "행원파크": CafeteriaSeoul.hangwon_seoul
-        }
-    else:
-        cafeterias = {
-            "학생식당": CafeteriaERICA.student_erica,
-            "창의인재원식당": CafeteriaERICA.dorm_erica,
-            "교직원식당": CafeteriaERICA.teacher_erica,
-            "창업보육센터": CafeteriaERICA.changbo_erica,
-            "푸드코트": CafeteriaERICA.food_court_erica
-        }
+    cafeterias = {
+        "학생식당": CafeteriaERICA.student_erica,
+        "창의인재원식당": CafeteriaERICA.dorm_erica,
+        "교직원식당": CafeteriaERICA.teacher_erica,
+        "창업보육센터": CafeteriaERICA.changbo_erica,
+        "푸드코트": CafeteriaERICA.food_court_erica
+    }
 
     cafeteria = cafeterias[user_answer]
     recipe = get_recipe(cafeteria)
@@ -94,11 +82,7 @@ def make_answer_food_menu(campus, user_answer=''):
             string += '\n'
         if string[-1] == '\n':
             string = string[:-1]
-    if campus:
-        rest_list = ['학생식당', '신학생식당', '교직원식당', '신교직원식당', '제1생활관식당', '제2생활관식당', '사랑방', '행원파크']
-    else:
-        rest_list = ['학생식당', '교직원식당', '창의인재원식당', '창업보육센터', '푸드코트']
-
+    rest_list = ['학생식당', '교직원식당', '창의인재원식당', '창업보육센터', '푸드코트']
     response = insert_text(string.strip())
     block_id = '5eaa9b11cdbc3a00015a23fb'
     for restaurant in rest_list:
