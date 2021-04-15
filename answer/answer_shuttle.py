@@ -35,54 +35,36 @@ def make_answer_shuttle_depart_info(user_answer) -> str:
         bus_to_come_dh, bus_to_come_dy, bus_to_come_c, now = depart_info
         # 도착정보를 응답으로 변환
         if dest_stop == '기숙사':
-            result = '기숙사→셔틀콕,한대앞(직행)\n'
-            if bus_to_come_dh:
-                for depart_time in bus_to_come_dh:
-                    result += f'{depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
+            result = '기숙사→셔틀콕,한대앞\n'
+            if bus_to_come_dh + bus_to_come_c:
+                for depart_time in sorted(bus_to_come_dh + bus_to_come_c)[:2]:
+                    result += f'{"직행" if depart_time in bus_to_come_dh else "순환"} { depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
             else:
                 result += '도착 예정인 버스가 없습니다.\n'
-            result += '\n기숙사→셔틀콕,예술인(직행)\n'
-            if bus_to_come_dy:
-                for depart_time in bus_to_come_dy:
-                    result += f'{depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
-            else:
-                result += '도착 예정인 버스가 없습니다.\n'
-            result += '\n기숙사→셔틀콕,한대앞,예술인(순환)\n'
-            if bus_to_come_c:
-                for depart_time in bus_to_come_c:
-                    result += f'{depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
+            result += '\n기숙사→셔틀콕,예술인\n'
+            if bus_to_come_dy + bus_to_come_c:
+                for depart_time in sorted(bus_to_come_dy + bus_to_come_c)[:2]:
+                    result += f'{"직행" if depart_time in bus_to_come_dh else "순환"} {depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
             else:
                 result += '도착 예정인 버스가 없습니다.\n'
         elif dest_stop == '셔틀콕' or dest_stop == 'Shuttlecock':
-            result = '셔틀콕→한대앞(직행)\n'
-            if bus_to_come_dh:
-                for depart_time in bus_to_come_dh:
-                    result += f'{depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
+            result = '셔틀콕→한대앞\n'
+            if bus_to_come_dh + bus_to_come_c:
+                for depart_time in sorted(bus_to_come_dh + bus_to_come_c)[:2]:
+                    result += f'{"직행" if depart_time in bus_to_come_dh else "순환"} { depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
             else:
                 result += '도착 예정인 버스가 없습니다.\n'
-            result += '\n셔틀콕→예술인A(직행)\n'
-            if bus_to_come_dy:
-                for depart_time in bus_to_come_dy:
-                    result += f'{depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
-            else:
-                result += '도착 예정인 버스가 없습니다.\n'
-            result += '\n셔틀콕→한대앞,예술인(순환)\n'
-            if bus_to_come_c:
-                for depart_time in bus_to_come_c:
-                    result += f'{depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
+            result += '\n셔틀콕→예술인\n'
+            if bus_to_come_dy + bus_to_come_c:
+                for depart_time in sorted(bus_to_come_dy + bus_to_come_c)[:2]:
+                    result += f'{"직행" if depart_time in bus_to_come_dh else "순환"} {depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
             else:
                 result += '도착 예정인 버스가 없습니다.\n'
         elif dest_stop == '한대앞역' or dest_stop == 'Station':
-            result = '한대앞→셔틀콕(직행)\n'
-            if bus_to_come_dh:
-                for depart_time in bus_to_come_dh:
-                    result += f'{depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
-            else:
-                result += '도착 예정인 버스가 없습니다.\n'
-            result += '\n한대앞→예술인,셔틀콕(순환)\n'
-            if bus_to_come_c:
-                for depart_time in bus_to_come_c:
-                    result += f'{depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
+            result = '한대앞→셔틀콕\n'
+            if bus_to_come_dh + bus_to_come_c:
+                for depart_time in sorted(bus_to_come_dh + bus_to_come_c)[:2]:
+                    result += f'{"직행" if depart_time in bus_to_come_dh else "순환"} { depart_time.strftime("%H시 %M분")} 출발({(depart_time - now).seconds // 60}분 후)\n'
             else:
                 result += '도착 예정인 버스가 없습니다.\n'
         elif dest_stop == '예술인A':
@@ -112,9 +94,13 @@ def make_answer_shuttle_depart_info(user_answer) -> str:
         result += "\n도착 정보는 시간표 기반으로 제공함으로 미리 정류장에서 기다리는 것을 권장합니다.\n"
         server_answer = insert_text(result.strip())
 
+    # 앱 홍보 버튼 추가
+    reply = make_reply('앱 설치', "앱 설치 안내입니다.", "6077ca2de2039a2ba38c755f")
+    response = insert_replies(server_answer, reply)
+
     # 하단 버튼 추가
     reply = make_reply('🔍 정류장', f'{dest_stop} 정류장 정보입니다.', '5ebf702e7a9c4b000105fb25')
-    response = insert_replies(server_answer, reply)
+    response = insert_replies(response, reply)
 
     reply = make_reply('🚫 오류제보', '셔틀 오류 제보하기', '5cc3fced384c5508fceec5bb')
     response = insert_replies(response, reply)
