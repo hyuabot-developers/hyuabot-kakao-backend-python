@@ -1,7 +1,8 @@
 import os
 
-from pydantic import AnyUrl, BaseSettings, Field
+from pydantic import BaseSettings, Field
 
 
 class AppSettings(BaseSettings):
-    API_URL: AnyUrl = Field(os.environ.get("API_URL", "http://localhost:8080"))
+    API_HOST: str = Field(os.environ.get("API_HOST", "localhost"))
+    API_PORT: int = Field(os.environ.get("API_PORT", 8080))
