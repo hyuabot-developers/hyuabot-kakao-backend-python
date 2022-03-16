@@ -1,7 +1,6 @@
-FROM python:3.10.2-alpine3.15
+FROM python:3.10.2-slim
 
 WORKDIR /code
-RUN apk add python3-dev build-essential
 
 COPY requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
