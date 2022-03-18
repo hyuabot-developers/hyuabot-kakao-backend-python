@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 COPY ./src /code/src
 WORKDIR /code/src
 
-CMD ["hypercorn", "--bind", "0.0.0.0:8081", "app.hyuabot.api.kakao:app"]
+CMD ["hypercorn", "--bind", "0.0.0.0:8081", "app.hyuabot.kakao.main:app"]

@@ -1,7 +1,14 @@
-from hypercorn.config import Config
+__version__ = "1.0.0-alpha1"
 
-from app.hyuabot.kakao import create_app, AppSettings
+from fastapi import FastAPI
 
-hypercorn_config = Config()
-app_settings = AppSettings()
-app = create_app(app_settings)
+from app.hyuabot.kakao.core.config import AppSettings
+from app.hyuabot.kakao.shuttle import shuttle_router
+
+
+def create_app(app_settings: AppSettings) -> FastAPI:
+    app = FastAPI()
+    app.extra["settings"] = app_settings
+
+    app.include_router(shuttle_router)
+    return app
