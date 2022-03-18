@@ -28,7 +28,6 @@ jobs:
         else
           echo "::add-matcher::.github/workflows/flake8-matcher.json"
         fi
-        python -m flake8 src/app/hyuabot tests
   typecheck:
     runs-on: ubuntu-latest
     steps:
@@ -55,4 +54,3 @@ jobs:
         else
           echo "::add-matcher::.github/workflows/mypy-matcher.json"
         fi
-        python -m mypy --no-color-output src/app/hyuabot tests

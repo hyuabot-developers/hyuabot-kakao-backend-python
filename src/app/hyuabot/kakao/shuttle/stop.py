@@ -50,13 +50,12 @@ async def arrival(user_input: KakaoRequest) -> ServerResponse:
                        f"({heading_dict[shuttle_for_station[0]['type']]})\n"
         description += f"막차: {shuttle_for_station[-1]['time']}" \
                        f"({heading_dict[shuttle_for_station[-1]['type']]})\n"
-        
+
         description += "\n예술인 방면\n"
         description += f"첫차: {shuttle_for_terminal[0]['time']}" \
                        f"({heading_dict[shuttle_for_terminal[0]['type']]})\n"
         description += f"막차: {shuttle_for_terminal[-1]['time']}" \
                        f"({heading_dict[shuttle_for_terminal[-1]['type']]})"
-        
     elif shuttle_stop == "셔틀콕":
         item_to_remove = 1
         description += "위치: 제2과학기술관 건너편\n"
@@ -72,7 +71,6 @@ async def arrival(user_input: KakaoRequest) -> ServerResponse:
                        f"({heading_dict[shuttle_for_terminal[0]['type']]})\n"
         description += f"막차: {shuttle_for_terminal[-1]['time']}" \
                        f"({heading_dict[shuttle_for_terminal[-1]['type']]})"
-    
     elif shuttle_stop == "한대앞역":
         item_to_remove = 2
         description += "위치: 한대앞역 2번 출구에서 좌측 전방\n"

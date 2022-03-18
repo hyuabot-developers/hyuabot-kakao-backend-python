@@ -10,10 +10,10 @@ def create_carousel_response(card_list: list[TextCard], quick_replies: list[Quic
             outputs=[
                 CarouselResponse(
                     carousel=Carousel(type="basicCard", items=card_list),
-                )
+                ),
             ],
             quickReplies=quick_replies,
-        )
+        ),
     )
 
 
@@ -26,8 +26,8 @@ def create_basic_card_response(title: str, description: str,
             outputs=[
                 BasicCardResponse(basicCard=TextCard(
                     title=title, description=description, buttons=buttons,
-                ))
+                )),
             ],
             quickReplies=quick_replies,
-        )
+        ),
     )

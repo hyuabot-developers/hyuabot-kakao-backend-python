@@ -21,6 +21,7 @@ quick_replies = [
                blockId="5ebf702e7a9c4b000105fb25"),
 ]
 
+
 def create_shuttle_arrival_string(shuttle_arrival_list: list) -> str:
     description = ""
     if len(shuttle_arrival_list) >= 0:
