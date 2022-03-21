@@ -41,10 +41,11 @@ async def arrival(_: KakaoRequest) -> ServerResponse:
         bus_stop_name = bus_arrival_item["busStop"]
         bus_arrival_realtime_list = bus_arrival_item["realtime"]
         bus_arrival_timetable_list = []
+        now = datetime.now(tz=korea_standard_time)
         for bus_arrival_timetable_item in bus_arrival_item["timetable"][weekday_key]:
             bus_arrival_time = datetime.strptime(bus_arrival_timetable_item, "%H:%M:%S")\
-                .replace(tzinfo=korea_standard_time)
-            if bus_arrival_time > datetime.now(tz=korea_standard_time):
+                .replace(tzinfo=korea_standard_time, year=now.year, month=now.month, day=now.day)
+            if bus_arrival_time > now:
                 bus_arrival_timetable_list.append(bus_arrival_time)
             if len(bus_arrival_timetable_list) == 3:
                 break
@@ -61,7 +62,7 @@ async def arrival(_: KakaoRequest) -> ServerResponse:
         else:
             description += "운행 중인 버스가 없습니다.\n"
 
-        description += f"\n시점({start_stop_dict[route_name]}) 츌벌 시간표\n"
+        description += f"\n시점({start_stop_dict[route_name]}) 출발 시간표\n"
         if bus_arrival_timetable_list:
             for bus_arrival_timetable in bus_arrival_timetable_list:
                 description += f"{bus_arrival_timetable.strftime('%H시 %M분')}\n"
@@ -69,7 +70,7 @@ async def arrival(_: KakaoRequest) -> ServerResponse:
             description += "운행이 종료되었습니다\n막차: " \
                            f"{bus_arrival_item['timetable'][weekday_key][-1][:5].replace(':', '시 ')}분\n"
         card_list.append(TextCard(
-            title=title, description=description, buttons=[],
+            title=title, description=description.strip(), buttons=[],
         ))
 
     return create_carousel_response(card_list, [])
