@@ -1,6 +1,10 @@
 import os
+from datetime import timezone, timedelta
 
 from pydantic import BaseSettings, Field
+
+
+korea_standard_time = timezone(timedelta(hours=9))
 
 
 class AppSettings(BaseSettings):
