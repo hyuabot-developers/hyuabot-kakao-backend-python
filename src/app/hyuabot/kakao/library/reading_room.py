@@ -40,8 +40,8 @@ async def campus(_: KakaoRequest) -> ServerResponse:
         else:
             title += "/사용 불가"
 
-        description = f"전체 죄석: {reading_room_total}석\n"
-        description += f"전체 죄석(사용 가능): {reading_room_total_active}석\n"
+        description = f"전체: {reading_room_total}석\n"
+        description += f"전체(사용 가능): {reading_room_total_active}석\n"
         description += f"사용 중: {reading_room_occupied}석\n"
         description += f"예약 가능: {reading_room_available}석\n"
 
