@@ -58,14 +58,17 @@ async def arrival(_: KakaoRequest) -> ServerResponse:
                 remained_stop_count = bus_arrival_realtime["location"]
                 remained_time = bus_arrival_realtime["remainedTime"]
                 remained_seat = bus_arrival_realtime["remainedSeat"]
-                description += f"{remained_stop_count}전/ {remained_time}분 후 도착({remained_seat}석)\n"
+                description += f"{remained_stop_count}전/{remained_time}분 후 도착"
+                if remained_seat > 0:
+                    description += f"({remained_seat}석)"
+                description += "\n"
         else:
             description += "운행 중인 버스가 없습니다.\n"
 
         description += f"\n시점({start_stop_dict[route_name]}) 출발 시간표\n"
         if bus_arrival_timetable_list:
             for bus_arrival_timetable in bus_arrival_timetable_list:
-                description += f"{bus_arrival_timetable.strftime('%H시 %M분')}\n"
+                description += f"{bus_arrival_timetable.strftime('%H시 %M분')} 출발 예정\n"
         else:
             description += "운행이 종료되었습니다\n막차: " \
                            f"{bus_arrival_item['timetable'][weekday_key][-1][:5].replace(':', '시 ')}분\n"
