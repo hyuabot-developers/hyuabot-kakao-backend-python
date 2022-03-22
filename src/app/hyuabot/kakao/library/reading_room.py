@@ -1,9 +1,7 @@
-from datetime import datetime
-
 import aiohttp as aiohttp
 from fastapi import APIRouter
 
-from app.hyuabot.kakao.core.config import AppSettings, korea_standard_time
+from app.hyuabot.kakao.core.config import AppSettings
 from app.hyuabot.kakao.core.create_response import create_carousel_response
 from app.hyuabot.kakao.scheme.request import KakaoRequest
 from app.hyuabot.kakao.scheme.response import ServerResponse, TextCard
