@@ -7,7 +7,7 @@ from app.hyuabot.kakao.scheme.request import KakaoRequest
 from app.hyuabot.kakao.scheme.response import ServerResponse, TextCard, QuickReply
 
 shuttle_arrival_router = APIRouter(prefix="/arrival")
-heading_dict = {"DH": "직행", "DY": "직행", "C": "순환"}
+heading_dict = {"DH": "직행", "DY": "직행", "C": "순환", "DJ": "직행"}
 quick_replies = [
     QuickReply(action="block", label="🏘️ 기숙사", messageText="🏘️ 기숙사",
                blockId="5ebf702e7a9c4b000105fb25"),
