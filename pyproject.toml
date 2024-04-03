@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hyuabot-kakao-backend-python"
+description = "Kakao backend for HYUaBot"
+readme = "README.md"
+requires-python = ">=3.12"
+version = "24.04.03"
+classifiers = [
+    'Environment :: Console',
+    'Operating System :: POSIX :: Linux',
+    'Programming Language :: Python :: 3',
+]
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = "requirements.txt"}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[project.optional-dependencies]
+lint = ["flake8"]
+typecheck = ["mypy", "sqlalchemy[mypy]", "types-beautifulsoup4"]
+test = ["pytest", "pytest-asyncio"]
