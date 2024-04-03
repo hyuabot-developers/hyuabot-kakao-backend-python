@@ -23,5 +23,5 @@ testpaths = ["tests"]
 
 [project.optional-dependencies]
 lint = ["flake8"]
-typecheck = ["mypy", "sqlalchemy[mypy]", "types-beautifulsoup4"]
-test = ["pytest", "pytest-asyncio"]
+typecheck = ["mypy", "sqlalchemy[mypy]", "types-pytz"]
+test = ["pytest", "pytest-asyncio", "pytest-cov", "async-asgi-testclient"]
