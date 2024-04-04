@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from config import app_configs, settings
+from schema.payload import Payload
 
 app = FastAPI(**app_configs)
 app.add_middleware(
@@ -13,6 +14,6 @@ app.add_middleware(
 )
 
 
-@app.get("/healthcheck", include_in_schema=False)
-def healthcheck() -> dict[str, str]:
+@app.post("/healthcheck", include_in_schema=False)
+def healthcheck(_: Payload) -> dict[str, str]:
     return {"status": "ok"}
