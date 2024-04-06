@@ -20,6 +20,7 @@ dependencies = {file = "requirements.txt"}
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+filterwarnings = "ignore::DeprecationWarning"
 
 [project.optional-dependencies]
 lint = ["flake8"]
