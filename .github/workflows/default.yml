@@ -80,11 +80,5 @@ jobs:
         echo "CORS_HEADERS=[\"*\"]" >> .env
         echo "CORS_ORIGINS=[\"http://localhost:3000\", \"https://kakao.hyuabot.app\"]" >> .env
     - name: Test with pytest
-      env:
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_PORT: ${{ secrets.DB_PORT }}
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_NAME: ${{ secrets.DB_NAME }}
       run: |
         python -m pytest -m 'not integration' -v --cov=src
