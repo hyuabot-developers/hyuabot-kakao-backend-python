@@ -5,6 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 from config import app_configs, settings
 from schema.payload import Payload
 from schema.response import SimpleTextResponse
+from shuttle.router import router as shuttle_router
 
 app = FastAPI(**app_configs)
 app.add_middleware(
@@ -14,6 +15,8 @@ app.add_middleware(
     allow_methods=("DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"),
     allow_headers=settings.CORS_HEADERS,
 )
+
+app.include_router(shuttle_router, prefix="/shuttle", tags=["shuttle"])
 
 
 @app.post("/healthcheck", include_in_schema=False, response_model=SimpleTextResponse)
