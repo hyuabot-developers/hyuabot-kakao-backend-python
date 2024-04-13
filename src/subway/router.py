@@ -72,9 +72,8 @@ async def get_subway(_: Payload):
             if remaining_minutes < 0:
                 continue
             line_blue_up_arrival.append(
-                f"({up['terminal']['name']}행) "
-                f"{int(remaining_minutes)}분 후 도착 "
-                f"({up['location']})",
+                f"({up['terminal']['name']}) "
+                f"{int(remaining_minutes)}분 후 도착 - {up['location']}",
             )
         for up in line_blue["timetable"]["up"]:
             if len(line_blue["realtime"]["up"]) > 0:
@@ -87,7 +86,7 @@ async def get_subway(_: Payload):
                     up["time"],
                 ):
                     continue
-            line_blue_up_arrival.append(f"({up['terminal']['name']}행) {timetable_to_str(up['time'])} 출발")
+            line_blue_up_arrival.append(f"({up['terminal']['name']}) {timetable_to_str(up['time'])} 출발")
 
         line_blue_down_arrival = []
         for down in line_blue["realtime"]["down"]:
@@ -95,9 +94,8 @@ async def get_subway(_: Payload):
             if remaining_minutes < 0:
                 continue
             line_blue_down_arrival.append(
-                f"({down['terminal']['name']}행) "
-                f"{int(remaining_minutes)}분 후 도착 "
-                f"({down['location']})",
+                f"({down['terminal']['name']}) "
+                f"{int(remaining_minutes)}분 후 도착 - {down['location']}",
             )
         for down in line_blue["timetable"]["down"]:
             if len(line_blue["realtime"]["down"]) > 0:
@@ -110,7 +108,7 @@ async def get_subway(_: Payload):
                     down["time"],
                 ):
                     continue
-            line_blue_down_arrival.append(f"({down['terminal']['name']}행) {timetable_to_str(down['time'])} 출발")
+            line_blue_down_arrival.append(f"({down['terminal']['name']}) {timetable_to_str(down['time'])} 출발")
 
         line_yellow_up_arrival = []
         for up in line_yellow["realtime"]["up"]:
@@ -118,9 +116,8 @@ async def get_subway(_: Payload):
             if remaining_minutes < 0:
                 continue
             line_yellow_up_arrival.append(
-                f"({up['terminal']['name']}행) "
-                f"{int(remaining_minutes)}분 후 도착 "
-                f"({up['location']})",
+                f"({up['terminal']['name']}) "
+                f"{int(remaining_minutes)}분 후 도착 - {up['location']}",
             )
         for up in line_yellow["timetable"]["up"]:
             if len(line_yellow["realtime"]["up"]) > 0:
@@ -133,7 +130,7 @@ async def get_subway(_: Payload):
                     up["time"],
                 ):
                     continue
-            line_yellow_up_arrival.append(f"({up['terminal']['name']}행) {timetable_to_str(up['time'])} 출발")
+            line_yellow_up_arrival.append(f"({up['terminal']['name']}) {timetable_to_str(up['time'])} 출발")
 
         line_yellow_down_arrival = []
         for down in line_yellow["realtime"]["down"]:
@@ -141,9 +138,8 @@ async def get_subway(_: Payload):
             if remaining_minutes < 0:
                 continue
             line_yellow_down_arrival.append(
-                f"({down['terminal']['name']}행) "
-                f"{int(remaining_minutes)}분 후 도착 "
-                f"({down['location']})",
+                f"({down['terminal']['name']}) "
+                f"{int(remaining_minutes)}분 후 도착 - {down['location']}",
             )
         for down in line_yellow["timetable"]["down"]:
             if len(line_yellow["realtime"]["down"]) > 0:
@@ -156,7 +152,7 @@ async def get_subway(_: Payload):
                     down["time"],
                 ):
                     continue
-            line_yellow_down_arrival.append(f"({down['terminal']['name']}행) {timetable_to_str(down['time'])} 출발")
+            line_yellow_down_arrival.append(f"({down['terminal']['name']}) {timetable_to_str(down['time'])} 출발")
         line_blue_up_arrival = line_blue_up_arrival[:3] if len(line_blue_up_arrival) > 3 else line_blue_up_arrival
         line_blue_down_arrival = (
             line_blue_down_arrival[:3] if len(line_blue_down_arrival) > 3 else line_blue_down_arrival
@@ -172,7 +168,7 @@ async def get_subway(_: Payload):
         line_blue_description = "서울 방면\n"
         line_blue_description += "\n".join(line_blue_up_arrival) if len(line_blue_up_arrival) > 0 else "운행 정보 없음"
         line_blue_description += "\n\n"
-        line_blue_description += "당고개 방면\n"
+        line_blue_description += "오이도 방면\n"
         line_blue_description += "\n".join(line_blue_down_arrival) if len(line_blue_down_arrival) > 0 else "운행 정보 없음"
 
         line_yellow_title = "한대앞역 (수인분당선)"
