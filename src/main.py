@@ -7,6 +7,7 @@ from schema.payload import Payload
 from schema.response import SimpleTextResponse
 from bus.router import router as bus_router
 from shuttle.router import router as shuttle_router
+from subway.router import router as subway_router
 
 app = FastAPI(**app_configs)
 app.add_middleware(
@@ -19,6 +20,7 @@ app.add_middleware(
 
 app.include_router(bus_router, prefix="/bus", tags=["bus"])
 app.include_router(shuttle_router, prefix="/shuttle", tags=["shuttle"])
+app.include_router(subway_router, prefix="/subway", tags=["subway"])
 
 
 @app.post("/healthcheck", include_in_schema=False, response_model=SimpleTextResponse)
