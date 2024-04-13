@@ -13,7 +13,7 @@ jobs:
     runs-on: ["self-hosted", "ARM64"]
     if: ${{ github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch' }}
     env:
-      IMAGE_NAME: localhost:32000/hyuabot/hyuabot-kakao-server-python:latest
+      IMAGE_NAME: localhost:5000/hyuabot-kakao-server-python:latest
     steps:
     - uses: actions/checkout@v4
     - name: Set up Docker Buildx
