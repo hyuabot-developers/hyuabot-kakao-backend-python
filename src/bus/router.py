@@ -56,6 +56,15 @@ async def get_bus(_: Payload):
             return {
                 "version": "2.0",
                 "template": {
+                    "quickReplies": [
+                        {
+                            "label": "휴아봇 앱 설치",
+                            "action": "block",
+                            "messageText": "휴아봇 앱 설치",
+                            "blockId": "6077ca2de2039a2ba38c755f",
+                            "extra": {},
+                        },
+                    ],
                     "outputs": [
                         {
                             "carousel": {
@@ -99,6 +108,15 @@ async def get_bus(_: Payload):
             return {
                 "version": "2.0",
                 "template": {
+                    "quickReplies": [
+                        {
+                            "label": "휴아봇 앱 설치",
+                            "action": "block",
+                            "messageText": "휴아봇 앱 설치",
+                            "blockId": "6077ca2de2039a2ba38c755f",
+                            "extra": {},
+                        },
+                    ],
                     "outputs": [
                         {
                             "carousel": {
@@ -344,6 +362,15 @@ async def get_bus(_: Payload):
     return {
         "version": "2.0",
         "template": {
+            "quickReplies": [
+                {
+                    "label": "휴아봇 앱 설치",
+                    "action": "block",
+                    "messageText": "휴아봇 앱 설치",
+                    "blockId": "6077ca2de2039a2ba38c755f",
+                    "extra": {},
+                },
+            ],
             "outputs": [
                 {
                     "carousel": {
