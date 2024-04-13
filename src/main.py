@@ -5,6 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 from config import app_configs, settings
 from schema.payload import Payload
 from schema.response import SimpleTextResponse
+from bus.router import router as bus_router
 from shuttle.router import router as shuttle_router
 
 app = FastAPI(**app_configs)
@@ -16,6 +17,7 @@ app.add_middleware(
     allow_headers=settings.CORS_HEADERS,
 )
 
+app.include_router(bus_router, prefix="/bus", tags=["bus"])
 app.include_router(shuttle_router, prefix="/shuttle", tags=["shuttle"])
 
 
