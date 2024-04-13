@@ -12,6 +12,12 @@ from schema.response import CarouselResponse
 router = APIRouter()
 
 
+def calculate_remaining_minutes(remaining_minutes: float, updated_at_str: str, now: datetime.datetime) -> float:
+    updated_at = datetime.datetime.strptime(updated_at_str, "%Y-%m-%dT%H:%M:%S.%f%z")
+    remaining_time = (remaining_minutes * 60) - (now - updated_at).total_seconds()
+    return remaining_minutes if remaining_time > 0 else -1
+
+
 def timetable_to_str(timetable: str) -> str:
     return timetable[:2] + "시 " + timetable[3:5] + "분"
 
@@ -97,7 +103,7 @@ async def get_bus(_: Payload):
             bus_110 = list(filter(lambda x: x["info"]["name"] == "110", junction["routes"]))[0]
             bus_7070 = list(filter(lambda x: x["info"]["name"] == "7070", junction["routes"]))[0]
             bus_9090 = list(filter(lambda x: x["info"]["name"] == "9090", junction["routes"]))[0]
-            bus_suwon = []
+            bus_suwon: list[dict] = []
             for bus_item in bus_110["realtime"]:
                 bus_suwon.append({"name": "110", **bus_item})
             for bus_item in bus_7070["realtime"]:
@@ -133,13 +139,16 @@ async def get_bus(_: Payload):
         # 학교 → 상록수역 버스
         bus_to_sangnoksu_station_arrival = []
         for realtime_item in bus_to_sangnoksu_station["realtime"]:
+            remaining_time = calculate_remaining_minutes(
+                realtime_item["time"], realtime_item["updatedAt"], current_time,
+            )
             if realtime_item["lowFloor"]:
                 bus_to_sangnoksu_station_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전)",
+                    f"{int(remaining_time)}분 후 도착 (저상, {realtime_item['stop']}전)",
                 )
             else:
                 bus_to_sangnoksu_station_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전)",
+                    f"{int(remaining_time)}분 후 도착 ({realtime_item['stop']}전)",
                 )
         if len(bus_to_sangnoksu_station_arrival) < 3:
             for index, timetable_item in enumerate(bus_to_sangnoksu_station["timetable"]):
@@ -151,13 +160,16 @@ async def get_bus(_: Payload):
         # 상록수역 → 학교 버스
         bus_from_sangnoksu_station_arrival = []
         for realtime_item in bus_from_sangnoksu_station["realtime"]:
+            remaining_time = calculate_remaining_minutes(
+                realtime_item["time"], realtime_item["updatedAt"], current_time,
+            )
             if realtime_item["lowFloor"]:
                 bus_from_sangnoksu_station_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전)",
+                    f"{int(remaining_time)}분 후 도착 (저상, {realtime_item['stop']}전)",
                 )
             else:
                 bus_from_sangnoksu_station_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전)",
+                    f"{int(remaining_time)}분 후 도착 ({realtime_item['stop']}전)",
                 )
         if len(bus_from_sangnoksu_station_arrival) < 3:
             for index, timetable_item in enumerate(bus_from_sangnoksu_station["timetable"]):
@@ -169,13 +181,16 @@ async def get_bus(_: Payload):
         # 3100번 버스
         bus_3100_arrival = []
         for realtime_item in bus_3100["realtime"]:
+            remaining_time = calculate_remaining_minutes(
+                realtime_item["time"], realtime_item["updatedAt"], current_time,
+            )
             if realtime_item["lowFloor"]:
                 bus_3100_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
+                    f"{int(remaining_time)}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_3100_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
+                    f"{int(remaining_time)}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         if len(bus_3100_arrival) < 3:
             for index, timetable_item in enumerate(bus_3100["timetable"]):
@@ -187,13 +202,16 @@ async def get_bus(_: Payload):
         # 3100N번 버스
         bus_3100n_arrival = []
         for realtime_item in bus_3100n["realtime"]:
+            remaining_time = calculate_remaining_minutes(
+                realtime_item["time"], realtime_item["updatedAt"], current_time,
+            )
             if realtime_item["lowFloor"]:
                 bus_3100n_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
+                    f"{int(remaining_time)}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_3100n_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
+                    f"{int(remaining_time)}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         if len(bus_3100n_arrival) < 3:
             for index, timetable_item in enumerate(bus_3100n["timetable"]):
@@ -205,13 +223,16 @@ async def get_bus(_: Payload):
         # 3101번 버스
         bus_3101_arrival = []
         for realtime_item in bus_3101["realtime"]:
+            remaining_time = calculate_remaining_minutes(
+                realtime_item["time"], realtime_item["updatedAt"], current_time,
+            )
             if realtime_item["lowFloor"]:
                 bus_3101_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
+                    f"{int(remaining_time)}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_3101_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
+                    f"{int(remaining_time)}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         if len(bus_3101_arrival) < 3:
             for index, timetable_item in enumerate(bus_3101["timetable"]):
@@ -223,13 +244,16 @@ async def get_bus(_: Payload):
         # 3102번 버스
         bus_3102_arrival = []
         for realtime_item in bus_3102["realtime"]:
+            remaining_time = calculate_remaining_minutes(
+                realtime_item["time"], realtime_item["updatedAt"], current_time,
+            )
             if realtime_item["lowFloor"]:
                 bus_3102_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
+                    f"{int(remaining_time)}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_3102_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
+                    f"{int(remaining_time)}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         if len(bus_3102_arrival) < 3:
             for index, timetable_item in enumerate(bus_3102["timetable"]):
@@ -241,13 +265,16 @@ async def get_bus(_: Payload):
         # 707-1번 버스
         bus_707_1_arrival = []
         for realtime_item in bus_707_1["realtime"]:
+            remaining_time = calculate_remaining_minutes(
+                realtime_item["time"], realtime_item["updatedAt"], current_time,
+            )
             if realtime_item["lowFloor"]:
                 bus_707_1_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
+                    f"{int(remaining_time)}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_707_1_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
+                    f"{int(remaining_time)}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         if len(bus_707_1_arrival) < 3:
             for index, timetable_item in enumerate(bus_707_1["timetable"]):
@@ -259,14 +286,17 @@ async def get_bus(_: Payload):
         # 학교 → 수원역 버스
         bus_suwon_arrival = []
         for realtime_item in sorted(bus_suwon, key=lambda x: x["time"]):
+            remaining_time = calculate_remaining_minutes(
+                realtime_item["time"], realtime_item["updatedAt"], current_time,
+            )
             if realtime_item["lowFloor"]:
                 bus_suwon_arrival.append(
-                    f"({realtime_item['name']}번) {int(realtime_item['time'])}분 후 도착 "
+                    f"({realtime_item['name']}번) {int(remaining_time)}분 후 도착 "
                     f"(저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_suwon_arrival.append(
-                    f"({realtime_item['name']}번) {int(realtime_item['time'])}분 후 도착 "
+                    f"({realtime_item['name']}번) {int(remaining_time)}분 후 도착 "
                     f"({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         intercity_bus_title = "시내버스"
@@ -316,8 +346,8 @@ async def get_bus(_: Payload):
             suwon_bus_description += "운행 정보 없음"
         suwon_bus_description += "\n\n기타 (한양대입구 → 수원역)\n"
         if len(bus_suwon_arrival) > 0:
-            if len(bus_suwon_arrival) > 3:
-                suwon_bus_description += "\n".join(bus_suwon_arrival[:3])
+            if len(bus_suwon_arrival) > 2:
+                suwon_bus_description += "\n".join(bus_suwon_arrival[:2])
             else:
                 suwon_bus_description += "\n".join(bus_suwon_arrival)
         else:
