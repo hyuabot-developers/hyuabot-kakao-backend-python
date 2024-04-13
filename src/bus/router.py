@@ -117,11 +117,11 @@ async def get_bus(_: Payload):
         for realtime_item in bus_to_sangnoksu_station["realtime"]:
             if realtime_item["lowFloor"]:
                 bus_to_sangnoksu_station_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상)",
+                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전)",
                 )
             else:
                 bus_to_sangnoksu_station_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착",
+                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전)",
                 )
         if len(bus_to_sangnoksu_station_arrival) < 3:
             for index, timetable_item in enumerate(bus_to_sangnoksu_station["timetable"]):
@@ -135,11 +135,11 @@ async def get_bus(_: Payload):
         for realtime_item in bus_from_sangnoksu_station["realtime"]:
             if realtime_item["lowFloor"]:
                 bus_from_sangnoksu_station_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상)",
+                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전)",
                 )
             else:
                 bus_from_sangnoksu_station_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착",
+                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전)",
                 )
         if len(bus_from_sangnoksu_station_arrival) < 3:
             for index, timetable_item in enumerate(bus_from_sangnoksu_station["timetable"]):
@@ -153,11 +153,11 @@ async def get_bus(_: Payload):
         for realtime_item in bus_3100["realtime"]:
             if realtime_item["lowFloor"]:
                 bus_3100_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['seat']}석)",
+                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_3100_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['seat']}석)",
+                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         if len(bus_3100_arrival) < 3:
             for index, timetable_item in enumerate(bus_3100["timetable"]):
@@ -171,11 +171,11 @@ async def get_bus(_: Payload):
         for realtime_item in bus_3100n["realtime"]:
             if realtime_item["lowFloor"]:
                 bus_3100n_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['seat']}석)",
+                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_3100n_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['seat']}석)",
+                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         if len(bus_3100n_arrival) < 3:
             for index, timetable_item in enumerate(bus_3100n["timetable"]):
@@ -189,11 +189,11 @@ async def get_bus(_: Payload):
         for realtime_item in bus_3101["realtime"]:
             if realtime_item["lowFloor"]:
                 bus_3101_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['seat']}석)",
+                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_3101_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['seat']}석)",
+                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         if len(bus_3101_arrival) < 3:
             for index, timetable_item in enumerate(bus_3101["timetable"]):
@@ -207,11 +207,11 @@ async def get_bus(_: Payload):
         for realtime_item in bus_3102["realtime"]:
             if realtime_item["lowFloor"]:
                 bus_3102_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['seat']}석)",
+                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_3102_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['seat']}석)",
+                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         if len(bus_3102_arrival) < 3:
             for index, timetable_item in enumerate(bus_3102["timetable"]):
@@ -225,11 +225,11 @@ async def get_bus(_: Payload):
         for realtime_item in bus_707_1["realtime"]:
             if realtime_item["lowFloor"]:
                 bus_707_1_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['seat']}석)",
+                    f"{int(realtime_item['time'])}분 후 도착 (저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_707_1_arrival.append(
-                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['seat']}석)",
+                    f"{int(realtime_item['time'])}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         if len(bus_707_1_arrival) < 3:
             for index, timetable_item in enumerate(bus_707_1["timetable"]):
@@ -243,11 +243,13 @@ async def get_bus(_: Payload):
         for realtime_item in sorted(bus_suwon, key=lambda x: x["time"]):
             if realtime_item["lowFloor"]:
                 bus_suwon_arrival.append(
-                    f"({realtime_item['name']}번) {int(realtime_item['time'])}분 후 도착 (저상)",
+                    f"({realtime_item['name']}번) {int(realtime_item['time'])}분 후 도착 "
+                    f"(저상, {realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
             else:
                 bus_suwon_arrival.append(
-                    f"({realtime_item['name']}번) {int(realtime_item['time'])}분 후 도착",
+                    f"({realtime_item['name']}번) {int(realtime_item['time'])}분 후 도착 "
+                    f"({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
         intercity_bus_title = "시내버스"
         intercity_bus_description = "10-1번 (학교 → 상록수역)\n"
