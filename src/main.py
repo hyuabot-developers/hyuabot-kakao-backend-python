@@ -5,6 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 from config import app_configs, settings
 from schema.payload import Payload
 from schema.response import SimpleTextResponse
+from cafeteria.router import router as cafeteria_router
 from bus.router import router as bus_router
 from shuttle.router import router as shuttle_router
 from subway.router import router as subway_router
@@ -18,6 +19,7 @@ app.add_middleware(
     allow_headers=settings.CORS_HEADERS,
 )
 
+app.include_router(cafeteria_router, prefix="/cafeteria", tags=["cafeteria"])
 app.include_router(bus_router, prefix="/bus", tags=["bus"])
 app.include_router(shuttle_router, prefix="/shuttle", tags=["shuttle"])
 app.include_router(subway_router, prefix="/subway", tags=["subway"])
