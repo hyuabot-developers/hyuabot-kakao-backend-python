@@ -94,7 +94,7 @@ async def get_shuttle(_: Payload):
                 if index > 1:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 dormitory_out_card_contents += f"{departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n"
         else:
             dormitory_out_card_contents += "운행 종료\n"
@@ -105,7 +105,7 @@ async def get_shuttle(_: Payload):
                 if index > 1:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 tag = "직행" if shuttle["tag"] == "DY" else "순환"
                 dormitory_out_card_contents += f"{tag} {departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n"
         else:
@@ -117,7 +117,7 @@ async def get_shuttle(_: Payload):
                 if index > 1:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 dormitory_out_card_contents += f"{departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n"
         else:
             dormitory_out_card_contents += "운행 종료\n"
@@ -130,7 +130,7 @@ async def get_shuttle(_: Payload):
                 if index > 1:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 shuttlecock_out_card_contents += f"{departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n"
         else:
             shuttlecock_out_card_contents += "운행 종료\n"
@@ -141,7 +141,7 @@ async def get_shuttle(_: Payload):
                 if index > 1:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 tag = "직행" if shuttle["tag"] == "DY" else "순환"
                 shuttlecock_out_card_contents += (f"{tag} "
                                                   f"{departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n")
@@ -154,7 +154,7 @@ async def get_shuttle(_: Payload):
                 if index > 1:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 shuttlecock_out_card_contents += f"{departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n"
         else:
             shuttlecock_out_card_contents += "운행 종료\n"
@@ -167,7 +167,7 @@ async def get_shuttle(_: Payload):
                 if index > 1:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 station_to_campus_card_contents += f"{departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n"
         else:
             station_to_campus_card_contents += "운행 종료\n"
@@ -178,7 +178,7 @@ async def get_shuttle(_: Payload):
                 if index > 1:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 station_to_campus_card_contents += f"{departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n"
         else:
             station_to_campus_card_contents += "운행 종료\n"
@@ -189,7 +189,7 @@ async def get_shuttle(_: Payload):
                 if index > 1:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 station_to_campus_card_contents += f"{departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n"
         else:
             station_to_campus_card_contents += "운행 종료\n"
@@ -202,7 +202,7 @@ async def get_shuttle(_: Payload):
                 if index > 5:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 terminal_to_campus_card_contents += f"{departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n"
         else:
             terminal_to_campus_card_contents += "운행 종료\n"
@@ -215,7 +215,7 @@ async def get_shuttle(_: Payload):
                 if index > 5:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 jungang_to_campus_card_contents += f"{departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n"
         else:
             jungang_to_campus_card_contents += "운행 종료\n"
@@ -228,7 +228,7 @@ async def get_shuttle(_: Payload):
                 if index > 5:
                     break
                 departure_time = datetime.datetime.strptime(shuttle["time"], "%H:%M:%S").time()
-                remaining_time = calculate_remaining_minutes(departure_time, current_time)
+                remaining_time = calculate_remaining_minutes(departure_time, current_time.time())
                 shuttlecock_in_card_contents += f"{departure_time.strftime('%H:%M')} 출발 ({remaining_time}분 후)\n"
         else:
             shuttlecock_in_card_contents += "운행 종료\n"
