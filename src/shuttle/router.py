@@ -15,16 +15,17 @@ router = APIRouter()
 
 @router.post("", response_model=CarouselResponse, tags=["shuttle"])
 async def get_shuttle(_: Payload):
-    current_time = datetime.datetime.now(tz=timezone("Asia/Seoul")).time()
+    current_time = datetime.datetime.now(tz=timezone("Asia/Seoul"))
     current_time_str = current_time.strftime("%H:%M")
+    current_timestamp_str = current_time.strftime("%Y-%m-%d %H:%M:%S")
     transport = AIOHTTPTransport(url=f"{settings.API_URL}/query")
     query = gql(
         f"""
             query {{
-                shuttle (start: \"{current_time_str}\") {{
+                shuttle (start: \"{current_time_str}\", timestamp: \"{current_timestamp_str}\") {{
                     timetable {{ tag, route, time, stop }}
+                }}
             }}
-        }}
         """,
     )
     async with Client(transport=transport, fetch_schema_from_transport=True) as session:
