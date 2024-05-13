@@ -41,7 +41,7 @@ async def get_cafeteria(_: Payload):
             description = ""
             if len(cafeteria["menu"]) == 0:
                 description = "오늘은 메뉴가 없어요!"
-            for menu in cafeteria["menu"]:
+            for menu in list(set(cafeteria["menu"])):
                 price = menu["price"] if str(menu["price"]).endswith("원") else f"{menu['price']}원"
                 description += f"{menu['menu']}\n{price}\n"
             cards.append({
