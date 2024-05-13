@@ -172,7 +172,7 @@ async def get_shuttle(_: Payload):
         else:
             station_to_campus_card_contents += "운행 종료\n"
 
-        station_to_campus_card_contents += "\n터미널 행\n"
+        station_to_campus_card_contents += "\n예술인 행\n"
         if len(station_to_terminal) > 0:
             for index, shuttle in enumerate(station_to_terminal):
                 if index > 1:
