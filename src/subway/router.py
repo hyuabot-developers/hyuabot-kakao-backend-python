@@ -155,13 +155,13 @@ async def get_subway(_: Payload):
             line_yellow_down_arrival.append(f"({down['terminal']['name']}) {timetable_to_str(down['time'])} 출발")
         line_blue_up_arrival = line_blue_up_arrival[:3] if len(line_blue_up_arrival) > 3 else line_blue_up_arrival
         line_blue_down_arrival = (
-            line_blue_down_arrival[:3] if len(line_blue_down_arrival) > 3 else line_blue_down_arrival
+            line_blue_down_arrival[:2] if len(line_blue_down_arrival) > 2 else line_blue_down_arrival
         )
         line_yellow_up_arrival = (
-            line_yellow_up_arrival[:3] if len(line_yellow_up_arrival) > 3 else line_yellow_up_arrival
+            line_yellow_up_arrival[:2] if len(line_yellow_up_arrival) > 2 else line_yellow_up_arrival
         )
         line_yellow_down_arrival = (
-            line_yellow_down_arrival[:3] if len(line_yellow_down_arrival) > 3 else line_yellow_down_arrival
+            line_yellow_down_arrival[:2] if len(line_yellow_down_arrival) > 2 else line_yellow_down_arrival
         )
 
         line_blue_title = "한대앞역 (4호선)"

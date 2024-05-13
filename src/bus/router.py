@@ -276,9 +276,9 @@ async def get_bus(_: Payload):
                 bus_707_1_arrival.append(
                     f"{int(remaining_time)}분 후 도착 ({realtime_item['stop']}전, {realtime_item['seat']}석)",
                 )
-        if len(bus_707_1_arrival) < 3:
+        if len(bus_707_1_arrival) < 2:
             for index, timetable_item in enumerate(bus_707_1["timetable"]):
-                if index >= 3:
+                if index >= 2:
                     break
                 bus_707_1_arrival.append(
                     f"{timetable_to_str(timetable_item['time'])} 시점 출발",
