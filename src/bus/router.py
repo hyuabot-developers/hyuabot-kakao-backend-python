@@ -356,16 +356,16 @@ async def get_bus(_: Payload):
         other_bus_title = "군포, 의왕 방면 버스"
         other_bus_description = "3100번 (학교 → 군포 → 강남역)\n"
         if len(bus_3100_arrival) > 0:
-            if len(bus_3100_arrival) > 3:
-                other_bus_description += "\n".join(bus_3100_arrival[:3])
+            if len(bus_3100_arrival) > 2:
+                other_bus_description += "\n".join(bus_3100_arrival[:2])
             else:
                 other_bus_description += "\n".join(bus_3100_arrival)
         else:
             other_bus_description += "운행 정보 없음"
         other_bus_description += "\n\n3101번 (학교 → 의왕 → 강남역)\n"
         if len(bus_3101_arrival) > 0:
-            if len(bus_3101_arrival) > 3:
-                other_bus_description += "\n".join(bus_3101_arrival[:3])
+            if len(bus_3101_arrival) > 2:
+                other_bus_description += "\n".join(bus_3101_arrival[:2])
             else:
                 other_bus_description += "\n".join(bus_3101_arrival)
         else:
